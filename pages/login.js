@@ -30,6 +30,7 @@ const SignIn = () => {
     console.log({ user, session, error });
   };
 
+  console.log({ DOMAIN });
   return (
     <>
       <Header />
