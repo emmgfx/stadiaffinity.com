@@ -32,6 +32,11 @@ const SignIn = () => {
     console.log({ user, session, error });
   };
 
+  console.log({
+    VERCEL: process.env.VERCEL,
+    VERCEL_URL: process.env.VERCEL_URL,
+    NEXT_AUTH_REDIRECT_TO: process.env.NEXT_AUTH_REDIRECT_TO,
+  });
   return (
     <>
       <Header />
