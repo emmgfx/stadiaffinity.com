@@ -1,10 +1,10 @@
 import { useState } from "react";
 
+import { DOMAIN } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 
 import AuthForm from "../components/AuthForm";
 import Header from "../components/Header";
-import { DOMAIN } from "../constants";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -23,20 +23,12 @@ const SignIn = () => {
   const loginGoogle = async () => {
     const { user, session, error } = await supabase.auth.signIn({
       provider: "google",
-      redirectTo:
-        process.env.VERCEL === "1"
-          ? process.env.VERCEL_URL
-          : process.env.NEXT_AUTH_REDIRECT_TO,
+      redirectTo: DOMAIN,
     });
 
     if (error) alert(error.message);
     console.log({ user, session, error });
   };
-
-  console.log({
-    DOMAIN: DOMAIN,
-    NEXT_PUBLIC_AUTH_REDIRECT_TO: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
-  });
 
   return (
     <>
