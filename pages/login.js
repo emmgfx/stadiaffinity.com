@@ -21,15 +21,10 @@ const SignIn = () => {
   };
 
   const loginGoogle = async () => {
-    const signInOptions = {
-      provider: "google",
-      redirectTo: DOMAIN,
-    };
     const { user, session, error } = await supabase.auth.signIn(
       { provider: "google" },
       { redirectTo: DOMAIN }
     );
-
     if (error) alert(error.message);
     console.log({ user, session, error });
   };
