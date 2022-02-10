@@ -22,6 +22,10 @@ const SignIn = () => {
   const loginGoogle = async () => {
     const { user, session, error } = await supabase.auth.signIn({
       provider: "google",
+      redirectTo:
+        process.env.VERCEL === "1"
+          ? process.env.VERCEL_URL
+          : process.env.NEXT_AUTH_REDIRECT_TO,
     });
 
     if (error) alert(error.message);
