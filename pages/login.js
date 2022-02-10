@@ -4,6 +4,7 @@ import { supabase } from "../utils/supabaseClient";
 
 import AuthForm from "../components/AuthForm";
 import Header from "../components/Header";
+import { DOMAIN } from "../constants";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -33,6 +34,7 @@ const SignIn = () => {
   };
 
   console.log({
+    DOMAIN: DOMAIN,
     IS_VERCEL: process.env.IS_VERCEL,
     VERCEL: process.env.VERCEL,
     VERCEL_URL: process.env.VERCEL_URL,
