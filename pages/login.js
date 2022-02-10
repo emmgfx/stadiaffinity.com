@@ -33,6 +33,7 @@ const SignIn = () => {
   };
 
   console.log({
+    IS_VERCEL: process.env.IS_VERCEL,
     VERCEL: process.env.VERCEL,
     VERCEL_URL: process.env.VERCEL_URL,
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_AUTH_REDIRECT_TO,
