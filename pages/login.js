@@ -25,8 +25,10 @@ const SignIn = () => {
       provider: "google",
       redirectTo: DOMAIN,
     };
-    console.log("signInOptions", signInOptions);
-    const { user, session, error } = await supabase.auth.signIn(signInOptions);
+    const { user, session, error } = await supabase.auth.signIn(
+      { provider: "google" },
+      { redirectTo: DOMAIN }
+    );
 
     if (error) alert(error.message);
     console.log({ user, session, error });
