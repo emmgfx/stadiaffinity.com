@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { DOMAIN } from "../constants";
 import { supabase } from "../utils/supabaseClient";
 
 import AuthForm from "../components/AuthForm";
@@ -23,7 +22,7 @@ const SignIn = () => {
   const loginGoogle = async () => {
     const { user, session, error } = await supabase.auth.signIn(
       { provider: "google" },
-      { redirectTo: DOMAIN }
+      { redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO }
     );
     if (error) alert(error.message);
     console.log({ user, session, error });
