@@ -1,10 +1,10 @@
-import pjson from "../../package.json";
-import Container from "../Container";
+import pjson from "../package.json";
+import Container from "./Container";
 
 const Footer = () => {
   return (
-    <footer>
-      <Container>
+    <footer className="py-4">
+      <Container className="">
         <p>Stadiaffinity {pjson.version}</p>
       </Container>
     </footer>
