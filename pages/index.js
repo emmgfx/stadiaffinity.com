@@ -1,12 +1,10 @@
-import Link from "next/link";
-import Header from "../components/Header";
+import Layout from "../components/Layout";
 
 const Home = () => {
   return (
-    <>
-      <Header />
-      <h1>Home</h1>
-    </>
+    <Layout>
+      <h1>Your ideal game just a step away from you</h1>
+    </Layout>
   );
 };
 

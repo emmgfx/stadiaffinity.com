@@ -3,7 +3,7 @@ import { useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 
 import AuthForm from "../components/AuthForm";
-import Header from "../components/Header";
+import Layout from "../components/Layout";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -29,8 +29,7 @@ const SignIn = () => {
   };
 
   return (
-    <>
-      <Header />
+    <Layout>
       <h1>Login (sign in)</h1>
       <AuthForm
         email={email}
@@ -40,7 +39,7 @@ const SignIn = () => {
         onSubmit={submit}
       />
       <button onClick={loginGoogle}>Login with Google</button>
-    </>
+    </Layout>
   );
 };
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 
 import AuthForm from "../components/AuthForm";
-import Header from "../components/Header";
+import Layout from "../components/Layout";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -23,8 +23,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
-      <Header />
+    <Layout>
       <h1>Register (sign up)</h1>
 
       <AuthForm
@@ -34,7 +33,7 @@ const SignUp = () => {
         onPasswordChange={(e) => setPassword(e.target.value)}
         onSubmit={submit}
       />
-    </>
+    </Layout>
   );
 };
 
