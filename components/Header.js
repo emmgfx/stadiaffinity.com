@@ -1,8 +1,11 @@
 import Link from "next/link";
 
 import { supabase } from "../utils/supabaseClient";
+import { usePopper } from "react-popper";
 import { useSession } from "../contexts/user";
 import Container from "./Container";
+import { forwardRef, useRef, useState } from "react";
+import classNames from "classnames";
 
 const Header = () => {
   return (
@@ -43,10 +46,30 @@ const Form = () => {
 
 const Navigation = () => {
   const { session } = useSession();
+  const [popperReference, setPopperReference] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const [popperVisible, setPopperVisible] = useState(false);
+
+  console.log("reference", popperReference);
+  console.log("element", popperElement);
+
+  const { styles, attributes } = usePopper(popperReference, popperElement, {
+    placement: "bottom-end",
+    // modifiers: [
+    //   {
+    //     name: "offset",
+    //     options: {
+    //       offset: ({ placement, reference, popper }) => {
+    //         return [0, 0];
+    //       },
+    //     },
+    //   },
+    // ],
+  });
 
   return (
     <nav className="">
-      <ul className="flex gap-8 justify-end">
+      <ul className="flex items-center gap-8 justify-end list-none">
         <li>
           <Link href="/all-games">All</Link>
         </li>
@@ -59,6 +82,15 @@ const Navigation = () => {
               <Link href="/" passRef>
                 <a onClick={() => supabase.auth.signOut()}>Logout</a>
               </Link>
+            </li>
+            <li>
+              <button
+                className="block"
+                ref={setPopperReference}
+                onClick={() => setPopperVisible((current) => !current)}
+              >
+                <div className="block w-9 h-9 bg-white rounded-full bg-[url('/img/hero-pattern.svg')]"></div>
+              </button>
             </li>
           </>
         )}
@@ -73,8 +105,32 @@ const Navigation = () => {
           </>
         )}
       </ul>
+      <DropDown
+        ref={setPopperElement}
+        visible={popperVisible}
+        styles={styles}
+        attributes={attributes}
+      />
     </nav>
   );
 };
+
+const DropDown = forwardRef((props, ref) => {
+  return (
+    <div
+      ref={ref}
+      style={props.styles.popper}
+      {...props.attributes.popper}
+      className={classNames(
+        "absolute w-72 aspect-[3/4] bg-teal-500 my-3 p-4 z-10 overflow-hidden rounded",
+        {
+          hidden: !props.visible,
+        }
+      )}
+    >
+      <pre>{JSON.stringify(props, null, 2)}</pre>
+    </div>
+  );
+});
 
 export default Header;
