@@ -4,7 +4,7 @@ import { supabase } from "../utils/supabaseClient";
 import { usePopper } from "react-popper";
 import { useSession } from "../contexts/user";
 import Container from "./Container";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useState } from "react";
 import classNames from "classnames";
 
 const Header = () => {
@@ -50,21 +50,8 @@ const Navigation = () => {
   const [popperElement, setPopperElement] = useState(null);
   const [popperVisible, setPopperVisible] = useState(false);
 
-  console.log("reference", popperReference);
-  console.log("element", popperElement);
-
   const { styles, attributes } = usePopper(popperReference, popperElement, {
     placement: "bottom-end",
-    // modifiers: [
-    //   {
-    //     name: "offset",
-    //     options: {
-    //       offset: ({ placement, reference, popper }) => {
-    //         return [0, 0];
-    //       },
-    //     },
-    //   },
-    // ],
   });
 
   return (
@@ -115,7 +102,9 @@ const Navigation = () => {
   );
 };
 
-const DropDown = forwardRef((props, ref) => {
+const DropDown = forwardRef(function DropDown(props, ref) {
+  // Using function instead of arrow function because of:
+  // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md
   return (
     <div
       ref={ref}
@@ -132,5 +121,7 @@ const DropDown = forwardRef((props, ref) => {
     </div>
   );
 });
+
+// DropDown.displayName = "DropDown";
 
 export default Header;
