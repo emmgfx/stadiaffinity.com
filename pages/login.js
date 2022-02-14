@@ -19,6 +19,7 @@ const SignIn = () => {
     console.log({ data, error });
   };
 
+  console.log({ redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO });
   const loginGoogle = async () => {
     const { user, session, error } = await supabase.auth.signIn(
       { provider: "google" },

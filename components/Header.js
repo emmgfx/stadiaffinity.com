@@ -10,7 +10,7 @@ import classNames from "classnames";
 const Header = () => {
   return (
     <header className="py-8">
-      <Container className="grid gap-4 grid-cols-3 items-center">
+      <Container className="grid gap-4 grid-cols-[auto_auto_auto] md:grid-cols-3 items-center">
         <Logo />
         <Form />
         <Navigation />
@@ -25,7 +25,7 @@ const Logo = () => {
       <Link href="/">
         <>
           <div className="inline-block w-8 h-8 bg-white rounded-md "></div>
-          Stadiaffinity
+          <span className="hidden md:block">Stadiaffinity</span>
         </>
       </Link>
     </div>
@@ -57,26 +57,16 @@ const Navigation = () => {
   return (
     <nav className="">
       <ul className="flex items-center gap-8 justify-end list-none">
-        <li>
-          <Link href="/all-games">All</Link>
-        </li>
         {session && (
           <>
             <li>
-              <Link href="/rated-games">Rated</Link>
-            </li>
-            <li>
-              <Link href="/" passRef>
-                <a onClick={() => supabase.auth.signOut()}>Logout</a>
-              </Link>
-            </li>
-            <li>
               <button
-                className="block"
+                className="flex items-center gap-4"
                 ref={setPopperReference}
                 onClick={() => setPopperVisible((current) => !current)}
               >
-                <div className="block w-9 h-9 bg-white rounded-full bg-[url('/img/hero-pattern.svg')]"></div>
+                <span className="hidden md:block">{session.user.email}</span>
+                <div className="block w-9 h-9 bg-white rounded-full"></div>
               </button>
             </li>
           </>
@@ -92,12 +82,14 @@ const Navigation = () => {
           </>
         )}
       </ul>
-      <DropDown
-        ref={setPopperElement}
-        visible={popperVisible}
-        styles={styles}
-        attributes={attributes}
-      />
+      {popperVisible && (
+        <DropDown
+          ref={setPopperElement}
+          visible={popperVisible}
+          styles={styles}
+          attributes={attributes}
+        />
+      )}
     </nav>
   );
 };
@@ -110,14 +102,26 @@ const DropDown = forwardRef(function DropDown(props, ref) {
       ref={ref}
       style={props.styles.popper}
       {...props.attributes.popper}
-      className={classNames(
-        "absolute w-72 aspect-[3/4] bg-teal-500 my-3 p-4 z-10 overflow-hidden rounded",
-        {
-          hidden: !props.visible,
-        }
-      )}
+      className={classNames("absolute", {
+        hidden: !props.visible,
+      })}
     >
-      <pre>{JSON.stringify(props, null, 2)}</pre>
+      <div className=" w-72 bg-black my-3 p-4 z-10 overflow-hidden rounded animate-[popup_200ms] ease-[cubic-bezier(0.68, -0.55, 0.27, 1.55)]">
+        <ul>
+          <li>
+            <Link href="/all-games">All</Link>
+          </li>
+
+          <li>
+            <Link href="/rated-games">Rated</Link>
+          </li>
+          <li>
+            <Link href="/" passRef>
+              <a onClick={() => supabase.auth.signOut()}>Logout</a>
+            </Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 });
