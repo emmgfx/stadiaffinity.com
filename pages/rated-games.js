@@ -1,38 +1,18 @@
 import { supabase } from "../utils/supabaseClient";
-
+import { getRatedGames, updateRating } from "../utils/api";
 import { useSession } from "../contexts/user";
-
-import Header from "../components/Header";
 import { useRouter } from "next/router";
 
 const RatedGames = ({ ratedGames }) => {
-  const { session } = useSession();
-  const router = useRouter();
-
-  const updateRating = async (gameId, rating) => {
-    const values = {
-      id_user: session.user.id,
-      id_game: gameId,
-      rating: rating,
-    };
-    const options = { onConflict: "id_game,id_user" };
-    const { data, error } = await supabase
-      .from("ratings")
-      .upsert(values, options);
-    router.replace(router.asPath); // Refresh data
-    console.log({ data, error });
-  };
-
   return (
     <>
-      <Header />
       <h1>Rated games</h1>
       <Table games={ratedGames} updateRating={updateRating} />
     </>
   );
 };
 
-const Table = ({ games, updateRating }) => {
+const Table = ({ games }) => {
   return (
     <table>
       <thead>
@@ -44,47 +24,61 @@ const Table = ({ games, updateRating }) => {
       </thead>
       <tbody>
         {games.map((game) => {
+          const { rating, id_game: gameId, name } = game;
           return (
-            <tr key={game.id_game}>
-              <td>{game.id_game}</td>
+            <tr key={gameId}>
+              <td>{gameId}</td>
               <td>{game.name}</td>
               <td>
-                <button
-                  onClick={() => updateRating(game.id_game, 1)}
-                  disabled={game.rating === 1}
-                >
-                  1
-                </button>
-                <button
-                  onClick={() => updateRating(game.id_game, 2)}
-                  disabled={game.rating === 2}
-                >
-                  2
-                </button>
-                <button
-                  onClick={() => updateRating(game.id_game, 3)}
-                  disabled={game.rating === 3}
-                >
-                  3
-                </button>
-                <button
-                  onClick={() => updateRating(game.id_game, 4)}
-                  disabled={game.rating === 4}
-                >
-                  4
-                </button>
-                <button
-                  onClick={() => updateRating(game.id_game, 5)}
-                  disabled={game.rating === 5}
-                >
-                  5
-                </button>
+                <RatingButton
+                  gameId={gameId}
+                  rating={1}
+                  disabled={rating === 1}
+                />
+                <RatingButton
+                  gameId={gameId}
+                  rating={2}
+                  disabled={rating === 2}
+                />
+                <RatingButton
+                  gameId={gameId}
+                  rating={3}
+                  disabled={rating === 3}
+                />
+                <RatingButton
+                  gameId={gameId}
+                  rating={4}
+                  disabled={rating === 4}
+                />
+                <RatingButton
+                  gameId={gameId}
+                  rating={5}
+                  disabled={rating === 5}
+                />
               </td>
             </tr>
           );
         })}
       </tbody>
     </table>
+  );
+};
+
+const RatingButton = ({ gameId, rating, disabled }) => {
+  const { session } = useSession();
+  const router = useRouter();
+
+  return (
+    <button
+      className="p-2 rounded bg-teal-500 disabled:opacity-50"
+      onClick={async () => {
+        await updateRating(session.user.id, gameId, rating);
+        router.replace(router.asPath); // Refresh data
+      }}
+      disabled={disabled}
+    >
+      {rating}
+    </button>
   );
 };
 
@@ -102,9 +96,7 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-  let { data: ratedGames, error } = await supabase.rpc("get_user_ratings", {
-    id_user_input: user.id,
-  });
+  let { data: ratedGames, error } = await getRatedGames(user.id);
 
   if (error) {
     // Return 404 response.

@@ -1,14 +1,10 @@
-import Cover from "./Cover";
+import GameItem from "./GameItem";
 
 const GamesGrid = ({ games }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
       {games.map((game, index) => {
-        return (
-          <div key={index}>
-            <Cover game={game} />
-          </div>
-        );
+        return <GameItem key={game.id} game={game} />;
       })}
     </div>
   );
