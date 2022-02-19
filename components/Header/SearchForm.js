@@ -37,7 +37,7 @@ const SearchForm = () => {
       <input
         type="text"
         value={term}
-        className="w-full p-4 text-center rounded-full bg-white/10 backdrop-blur-lg font-light focus:outline-none"
+        className="w-full py-3 px-4 text-center rounded-full bg-white/10 backdrop-blur-lg font-light focus:outline-none"
         placeholder="Search games and rate them"
         onChange={(e) => setTerm(e.target.value)}
       />

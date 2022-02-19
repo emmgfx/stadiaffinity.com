@@ -114,9 +114,13 @@ const Navigation = () => {
               </DropDownLink>
             </li>
             <li>
-              <DropDownLink href="/" passRef>
+              <DropDownLink
+                href="/"
+                passRef
+                onClick={() => supabase.auth.signOut()}
+              >
                 <img src="/images/icons/power.svg" width="20" height="20" />
-                <a onClick={() => supabase.auth.signOut()}>Logout</a>
+                Logout
               </DropDownLink>
             </li>
           </ul>
@@ -152,7 +156,7 @@ const Avatar = () => {
   return (
     <img
       src={avatar}
-      className="block w-9 h-9 bg-[#FF4C10] rounded-full"
+      className="block w-[32px] h-[32px] bg-[#FF4C10] rounded-full"
       referrerPolicy="no-referrer"
     />
   );
@@ -168,18 +172,21 @@ const DropDown = forwardRef(function DropDown(props, ref) {
       {...props.attributes.popper}
       className={classNames("absolute", { hidden: !props.visible })}
     >
-      <div className="w-72 bg-white/10 my-3 p-2 z-10 overflow-hidden rounded-2xl animate-[popup_200ms] ease-[cubic-bezier(0.68, -0.55, 0.27, 1.55)]">
+      <div className="w-72 bg-white/10 my-3 p-2 z-10 overflow-hidden rounded-2xl backdrop-blur-xl animate-[popup_200ms] ease-[cubic-bezier(0.68, -0.55, 0.27, 1.55)]">
         {props.children}
       </div>
     </div>
   );
 });
 
-const DropDownLink = (props) => {
+const DropDownLink = ({ onClick, children, ...props }) => {
   return (
     <Link {...props}>
-      <a className="block px-4 py-3 flex gap-4 hover:bg-white/10 rounded-lg">
-        {props.children}
+      <a
+        onClick={onClick}
+        className="block px-4 py-3 flex gap-4 hover:bg-white/10 rounded-lg"
+      >
+        {children}
       </a>
     </Link>
   );
