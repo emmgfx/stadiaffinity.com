@@ -1,5 +1,9 @@
+import { useRouter } from "next/router";
+
 import { supabase } from "../../utils/supabaseClient";
 import { decodeId } from "../../utils/hashids";
+import { useSession } from "../../contexts/user";
+import { updateRating } from "../../utils/api";
 
 import Cover from "../../components/Cover";
 
@@ -7,7 +11,6 @@ const GameDetails = ({ game }) => {
   return (
     <section className="">
       <div className="flex justify-center mt-16 mb-24">
-        {/* text-transparent bg-clip-text bg-gradient-to-br from-[#FF4C10] to-[#B903E7] */}
         <h1 className="inline-block text-4xl font-bold">{game.name}</h1>
       </div>
       <div className="flex gap-8">
@@ -15,8 +18,39 @@ const GameDetails = ({ game }) => {
           <Cover game={game} />
         </div>
         <pre>{JSON.stringify(game, null, 2)}</pre>
+        <GameStars gameId={game.id} currentRating={game.rating} />
       </div>
     </section>
+  );
+};
+
+const GameStars = ({ gameId, currentRating }) => {
+  return (
+    <div>
+      <RatingButton gameId={gameId} rating={1} disabled={currentRating === 1} />
+      <RatingButton gameId={gameId} rating={2} disabled={currentRating === 2} />
+      <RatingButton gameId={gameId} rating={3} disabled={currentRating === 3} />
+      <RatingButton gameId={gameId} rating={4} disabled={currentRating === 4} />
+      <RatingButton gameId={gameId} rating={5} disabled={currentRating === 5} />
+    </div>
+  );
+};
+
+const RatingButton = ({ gameId, rating, disabled }) => {
+  const { session } = useSession();
+  const router = useRouter();
+
+  return (
+    <button
+      className="p-2 rounded bg-teal-500 disabled:opacity-50"
+      onClick={async () => {
+        await updateRating(session.user.id, gameId, rating);
+        router.replace(router.asPath); // Refresh data
+      }}
+      disabled={disabled}
+    >
+      {rating}
+    </button>
   );
 };
 
