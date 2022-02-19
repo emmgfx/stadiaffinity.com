@@ -33,11 +33,11 @@ const SearchForm = () => {
   }, [debouncedTerm]);
 
   return (
-    <form className="w-full">
+    <form className="relative w-full before:content-[''] before:absolute before:block before:w-4 before:h-4 before:z-10 before:bg-[url(/images/icons/search.svg)] before:top-[50%] before:left-4 before:translate-y-[-50%]">
       <input
         type="text"
         value={term}
-        className="w-full py-3 px-4 text-center rounded-full bg-white/10 backdrop-blur-lg font-light focus:outline-none"
+        className="w-full py-3 px-4 pl-11 text-center rounded-full bg-white/10 backdrop-blur-lg font-light focus:outline-none "
         placeholder="Search games and rate them"
         onChange={(e) => setTerm(e.target.value)}
       />
