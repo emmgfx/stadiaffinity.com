@@ -5,7 +5,7 @@ import GamesGrid from "../components/GamesGrid";
 const Home = ({ topGames }) => {
   return (
     <>
-      <h1 className="text-6xl font-medium text-center max-w-2xl mx-auto my-24">
+      <h1 className="text-4xl sm:text-6xl font-medium text-center max-w-2xl mx-auto my-24">
         Your{" "}
         <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#FF4C10] to-[#B903E7]">
           ideal game
