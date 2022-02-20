@@ -23,7 +23,9 @@ const Search = () => {
 
   return (
     <>
-      <h1 className="h1">Search</h1>
+      <h1 className="text-4xl my-10">
+        Results for <strong>{router.query.term}</strong>
+      </h1>
       <GamesGrid games={results} />
     </>
   );

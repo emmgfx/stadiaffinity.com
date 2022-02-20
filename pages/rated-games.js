@@ -1,13 +1,24 @@
+import { useRouter } from "next/router";
+
 import { supabase } from "../utils/supabaseClient";
 import { getRatedGames, updateRating } from "../utils/api";
 import { useSession } from "../contexts/user";
-import { useRouter } from "next/router";
+
+import GamesGrid from "../components/GamesGrid";
 
 const RatedGames = ({ ratedGames }) => {
   return (
     <>
-      <h1>Rated games</h1>
-      <Table games={ratedGames} updateRating={updateRating} />
+      <h1 className="text-4xl my-10">Rated games</h1>
+      <GamesGrid
+        games={ratedGames.map((game) => {
+          return {
+            id: game.id_game,
+            ...game,
+          };
+        })}
+      />
+      {/* <Table games={ratedGames} updateRating={updateRating} /> */}
     </>
   );
 };
