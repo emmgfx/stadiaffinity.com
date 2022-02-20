@@ -23,9 +23,11 @@ function MyApp({ Component, pageProps }) {
           <title>Stadiaffinity</title>
         </Head>
         <Header />
-        <Container>
-          <Component {...pageProps} />
-        </Container>
+        <main className="pb-36">
+          <Container>
+            <Component {...pageProps} />
+          </Container>
+        </main>
         <Footer />
       </UserContextProvider>
     </Provider>
