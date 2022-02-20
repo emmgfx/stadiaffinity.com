@@ -7,11 +7,17 @@ const SearchForm = () => {
   // const { term } = useSelector((state) => state.search);
   // const dispatch = useDispatch();
   const [term, setTerm] = useState("");
-  const [debouncedTerm, setDebouncedTerm] = useState("");
+  const [debouncedTerm, setDebouncedTerm] = useState(null);
 
   const [, cancel] = useDebounce(() => setDebouncedTerm(term), 1000, [term]);
 
   useEffect(() => {
+    if (!router.query.term) return;
+    setTerm(router.query.term || "");
+  }, [router.query]);
+
+  useEffect(() => {
+    if (!debouncedTerm) return;
     const handleRouteChange = (url) => {
       if (!url.startsWith(`/search/`)) setTerm("");
     };

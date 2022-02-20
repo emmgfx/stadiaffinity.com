@@ -9,6 +9,7 @@ const Search = () => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
+    if (!router.query.term) return;
     const search = async (term) => {
       const { data, error } = await supabase
         .from("games")
