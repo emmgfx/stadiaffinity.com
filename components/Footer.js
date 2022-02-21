@@ -1,5 +1,4 @@
 import Link from "next/link";
-import pjson from "../package.json";
 import Container from "./Container";
 import Divider from "./Divider";
 
@@ -12,10 +11,9 @@ const Footer = () => {
             <img src="/images/isotype.svg" width="53" height="34" />
             <img src="/images/logotype.svg" width="126" height="23" />
           </div>
-          <p>
-            Stadia es un copyright de Google, todas las imágenes y nombres de
-            propiedad y marca registrada de Google son propiedad de sus
-            respectivos dueños.
+          <p className="mb-4">
+            Stadia is a copyright from Google. All images and trademarks are
+            property of his respective owners.
           </p>
         </div>
         <div className="text-center">

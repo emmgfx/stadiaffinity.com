@@ -30,3 +30,10 @@ a {
 #__next > main {
   flex: 1;
 }
+
+body {
+  /* or body[home=true] ? */
+  background-image: url("/images/bg-1.svg"), url("/images/bg-2.svg");
+  background-position: right top, left 500px;
+  background-repeat: no-repeat, no-repeat;
+}
