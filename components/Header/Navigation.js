@@ -8,6 +8,12 @@ import { usePopper } from "react-popper";
 import { supabase } from "../../utils/supabaseClient";
 import { useSession } from "../../contexts/user";
 
+import IconBadgeCheck from "../../public/images/icons/badge-check.svg";
+import IconStarMenu from "../../public/images/icons/star-menu.svg";
+import IconBookmarkCheck from "../../public/images/icons/bookmark-check.svg";
+import IconGear from "../../public/images/icons/gear.svg";
+import IconPower from "../../public/images/icons/power.svg";
+
 const Navigation = () => {
   const router = useRouter();
   const { session } = useSession();
@@ -83,33 +89,25 @@ const Navigation = () => {
           <ul>
             <li>
               <DropDownLink href="/game-suggestions">
-                <img
-                  src="/images/icons/badge-check.svg"
-                  width="20"
-                  height="20"
-                />
+                <IconBadgeCheck />
                 Game suggestions
               </DropDownLink>
             </li>
             <li>
               <DropDownLink href="/rated-games">
-                <img src="/images/icons/star-menu.svg" width="20" height="20" />
+                <IconStarMenu />
                 Rated games
               </DropDownLink>
             </li>
             <li>
               <DropDownLink href="/">
-                <img
-                  src="/images/icons/bookmark-check.svg"
-                  width="20"
-                  height="20"
-                />
+                <IconBookmarkCheck />
                 Saved games
               </DropDownLink>
             </li>
             <li>
               <DropDownLink href="/">
-                <img src="/images/icons/gear.svg" width="20" height="20" />
+                <IconGear />
                 Settings
               </DropDownLink>
             </li>
@@ -119,7 +117,7 @@ const Navigation = () => {
                 passRef
                 onClick={() => supabase.auth.signOut()}
               >
-                <img src="/images/icons/power.svg" width="20" height="20" />
+                <IconPower />
                 Logout
               </DropDownLink>
             </li>
@@ -184,7 +182,7 @@ const DropDownLink = ({ onClick, children, ...props }) => {
     <Link {...props}>
       <a
         onClick={onClick}
-        className="block px-4 py-3 flex gap-4 hover:bg-white/10 rounded-lg"
+        className="block px-4 py-3 flex items-center gap-4 hover:bg-white/10 rounded-lg"
       >
         {children}
       </a>

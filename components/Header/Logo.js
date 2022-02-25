@@ -1,23 +1,15 @@
 import Link from "next/link";
 
+import Isotype from "../../public/images/isotype.svg";
+import Logotype from "../../public/images/logotype.svg";
+
 const Logo = () => {
   return (
     <div className="inline-flex items-center font-medium text-2xl">
       <Link href="/">
         <a className="inline-flex gap-4 items-center">
-          <img
-            src="/images/isotype.svg"
-            width={54}
-            height={35}
-            alt="Stadiaffinity"
-          />
-          <img
-            src="/images/logotype.svg"
-            width={127}
-            height={24}
-            alt=""
-            className="hidden md:block"
-          />
+          <Isotype />
+          <Logotype className="hidden md:block" />
         </a>
       </Link>
     </div>
