@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { encodeId } from "../utils/hashids";
+
 import Cover from "./Cover";
+
+import FilledStar from "../public/images/icons/star-game-item.svg";
 
 const GameItem = ({ game }) => {
   return (
@@ -15,11 +18,11 @@ const GameItem = ({ game }) => {
           <Link href={`/game/${encodeId(game.id)}`}>{game.name}</Link>
         </h3>
         <div className="flex gap-0.5">
-          <img src="/images/icons/star-game-item.svg" />
-          <img src="/images/icons/star-game-item.svg" />
-          <img src="/images/icons/star-game-item.svg" />
-          <img src="/images/icons/star-game-item.svg" />
-          <img src="/images/icons/star-game-item.svg" />
+          <FilledStar />
+          <FilledStar />
+          <FilledStar />
+          <FilledStar />
+          <FilledStar />
           <span className="ml-2 text-[#95949B] text-sm">(128)</span>
         </div>
       </div>

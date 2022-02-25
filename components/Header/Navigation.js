@@ -30,12 +30,12 @@ const Navigation = () => {
   // Hide the dropdowns if the route changes
 
   useEffect(() => {
-    const handleRouteChange = (url) => setPopperVisible(false);
+    const handleRouteChange = () => setPopperVisible(false);
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-  }, []);
+  }, [router.events]);
 
   // Hide the dropdowns if a click outside elements occurs
 
@@ -47,7 +47,7 @@ const Navigation = () => {
       const clickedReference = popperReference.contains(e.target);
       if (!clickedElement && !clickedReference) setPopperVisible(false);
     },
-    [popperElement, setPopperVisible]
+    [popperReference, popperElement, setPopperVisible]
   );
 
   useEffect(() => {
@@ -143,7 +143,12 @@ const UserButton = forwardRef(function UserButton(props, ref) {
     >
       <Avatar />
       <span className="hidden md:block text-sm">{session.user.email}</span>
-      <Image src="/images/icons/chevron-down.svg" width={16} height={16} />
+      <Image
+        src="/images/icons/chevron-down.svg"
+        width={16}
+        height={16}
+        alt=""
+      />
     </button>
   );
 });
@@ -156,6 +161,7 @@ const Avatar = () => {
       src={avatar}
       className="block w-[32px] h-[32px] bg-[#FF4C10] rounded-full"
       referrerPolicy="no-referrer"
+      alt="Avatar"
     />
   );
 };

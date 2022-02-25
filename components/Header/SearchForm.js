@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "react-use";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+
+// ? Why I'm using Router.push?
+// https://github.com/vercel/next.js/issues/18127#issuecomment-988959843
 
 const SearchForm = () => {
   const router = useRouter();
@@ -17,14 +20,14 @@ const SearchForm = () => {
   useEffect(() => {
     if (debouncedTerm === null) return; // For refresh
     if (debouncedTerm !== "") {
-      router.push({
+      Router.push({
         pathname: "/search/[term]",
-        query: { term },
+        query: { term: debouncedTerm },
       });
     } else if (router.route === "/search/[term]") {
-      router.push("/");
+      Router.push("/");
     }
-  }, [debouncedTerm]);
+  }, [debouncedTerm, router.route]);
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -34,7 +37,7 @@ const SearchForm = () => {
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
-  }, [setTerm]);
+  }, [setTerm, router.events]);
 
   const submit = (e) => {
     e.preventDefault();
