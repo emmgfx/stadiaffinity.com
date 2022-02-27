@@ -1,11 +1,18 @@
+import classNames from "classnames";
+
 import GameItem from "./GameItem";
 
-const GamesGrid = ({ games }) => {
+const GamesGrid = ({ games, className }) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-6">
-      {games.map((game, index) => {
-        return <GameItem key={game.id} game={game} />;
-      })}
+    <div
+      className={classNames(
+        className,
+        "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-6"
+      )}
+    >
+      {games.map((game) => (
+        <GameItem key={game.id} game={game} />
+      ))}
     </div>
   );
 };

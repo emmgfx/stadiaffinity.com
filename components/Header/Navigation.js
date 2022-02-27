@@ -9,7 +9,7 @@ import { supabase } from "../../utils/supabaseClient";
 import { useSession } from "../../contexts/user";
 
 import IconBadgeCheck from "../../public/images/icons/badge-check.svg";
-import IconStarMenu from "../../public/images/icons/star-menu.svg";
+import IconStarMenu from "../../public/images/icons/star.svg";
 import IconBookmarkCheck from "../../public/images/icons/bookmark-check.svg";
 import IconGear from "../../public/images/icons/gear.svg";
 import IconPower from "../../public/images/icons/power.svg";
@@ -88,26 +88,22 @@ const Navigation = () => {
         >
           <ul>
             <li>
-              <DropDownLink href="/game-suggestions">
-                <IconBadgeCheck />
+              <DropDownLink href="/game-suggestions" Icon={IconBadgeCheck}>
                 Game suggestions
               </DropDownLink>
             </li>
             <li>
-              <DropDownLink href="/rated-games">
-                <IconStarMenu />
+              <DropDownLink href="/rated-games" Icon={IconStarMenu}>
                 Rated games
               </DropDownLink>
             </li>
             <li>
-              <DropDownLink href="/">
-                <IconBookmarkCheck />
+              <DropDownLink href="/" Icon={IconBookmarkCheck}>
                 Saved games
               </DropDownLink>
             </li>
             <li>
-              <DropDownLink href="/">
-                <IconGear />
+              <DropDownLink href="/" Icon={IconGear}>
                 Settings
               </DropDownLink>
             </li>
@@ -116,8 +112,8 @@ const Navigation = () => {
                 href="/"
                 passRef
                 onClick={() => supabase.auth.signOut()}
+                Icon={IconPower}
               >
-                <IconPower />
                 Logout
               </DropDownLink>
             </li>
@@ -159,9 +155,9 @@ const Avatar = () => {
   return (
     <img
       src={avatar}
-      className="block w-[32px] h-[32px] bg-[#FF4C10] rounded-full"
+      className="block w-[32px] h-[32px] bg-primary-500 rounded-full"
       referrerPolicy="no-referrer"
-      alt="Avatar"
+      alt=""
     />
   );
 };
@@ -183,13 +179,14 @@ const DropDown = forwardRef(function DropDown(props, ref) {
   );
 });
 
-const DropDownLink = ({ onClick, children, ...props }) => {
+const DropDownLink = ({ onClick, Icon, children, ...props }) => {
   return (
     <Link {...props}>
       <a
         onClick={onClick}
         className="block px-4 py-3 flex items-center gap-4 hover:bg-white/10 rounded-lg"
       >
+        {Icon && <Icon className="w-5 h-5" />}
         {children}
       </a>
     </Link>

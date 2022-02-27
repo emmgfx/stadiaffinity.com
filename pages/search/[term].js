@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { supabase } from "../../utils/supabaseClient";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import GamesGrid from "../../components/GamesGrid";
+import Container from "../../components/Container";
 
 const Search = () => {
   const router = useRouter();
@@ -23,10 +26,17 @@ const Search = () => {
 
   return (
     <>
-      <h1 className="text-4xl my-10">
-        Results for <strong>{router.query.term}</strong>
-      </h1>
-      <GamesGrid games={results} />
+      <Header />
+      <main>
+        <Container>
+          <h1 className="text-4xl my-10">
+            Results for <strong>{router.query.term}</strong>
+          </h1>
+          <GamesGrid games={results} />
+          <div className="h-40" />
+        </Container>
+      </main>
+      <Footer />
     </>
   );
 };

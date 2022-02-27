@@ -13,7 +13,7 @@ const GameItem = ({ game }) => {
           <Cover game={game} />
         </a>
       </Link>
-      <div className="px-4 py-6 bg-gradient-to-r from-[#242531] to-[#363740] flex-auto">
+      <div className="px-4 py-6 bg-gradient-to-r from-gray-medium to-[#363740] flex-auto">
         <h3 className="font-medium mb-2">
           <Link href={`/game/${encodeId(game.id)}`}>{game.name}</Link>
         </h3>
