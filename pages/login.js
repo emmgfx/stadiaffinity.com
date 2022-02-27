@@ -6,6 +6,8 @@ import TextGradient from "../components/TextGradient";
 import InputFloatingLabel from "../components/Form/InputFloatingLabel";
 
 import GoogleLogo from "../public/images/icons/logo-google.svg";
+import Logotype from "../public/images/logotype.svg";
+import Isotype from "../public/images/isotype.svg";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -34,7 +36,14 @@ const SignIn = () => {
     <>
       <div className="min-w-screen min-h-screen flex items-center justify-center">
         <div className="w-[400px] text-center px-10 py-14">
-          <h1 className="font-medium text-5xl">
+          <div className="flex gap-4 items-center mb-4 text-sm justify-center">
+            <Isotype />
+            <Logotype />
+          </div>
+
+          <div className="h-[50px]" />
+
+          <h1 className="font-medium text-4xl sm:text-5xl">
             <TextGradient>Welcome</TextGradient> back
           </h1>
           <div className="h-6" />
