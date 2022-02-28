@@ -4,6 +4,7 @@ import { getRatedGames } from "../utils/api";
 import Header from "../components/Header";
 import Container from "../components/Container";
 import Footer from "../components/Footer";
+import TextGradient from "../components/TextGradient";
 import GamesGrid from "../components/GamesGrid";
 
 const RatedGames = ({ ratedGames }) => {
@@ -12,7 +13,9 @@ const RatedGames = ({ ratedGames }) => {
       <Header />
       <main>
         <Container>
-          <h1 className="text-4xl my-10">Rated games</h1>
+          <h1 className="text-4xl my-10 font-semibold">
+            <TextGradient>{ratedGames.length} rated</TextGradient> games
+          </h1>
           <GamesGrid
             games={ratedGames.map((game) => {
               return {

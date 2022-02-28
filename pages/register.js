@@ -1,37 +1,37 @@
-import { useState } from "react";
+import Link from "next/link";
 
-import { supabase } from "../utils/supabaseClient";
+import Register from "../components/Register";
 
-import AuthForm from "../components/AuthForm";
+import Logotype from "../public/images/logotype.svg";
+import Isotype from "../public/images/isotype.svg";
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const submit = async (e) => {
-    e.preventDefault();
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      alert(error.message);
-    }
-    console.log({ data, error });
-  };
-
   return (
     <>
-      <h1>Register (sign up)</h1>
+      <header className="p-10 flex justify-center sm:justify-between items-center">
+        <Link href="/">
+          <a className="flex gap-4 items-center justify-center">
+            <Isotype className="block" />
+            <Logotype className="block" />
+          </a>
+        </Link>
+        <p className="hidden sm:block width-full text-right text-gray-light">
+          Already have an account?{" "}
+          <Link href="/login">
+            <a className="text-primary-500">Login</a>
+          </Link>
+        </p>
+      </header>
 
-      <AuthForm
-        email={email}
-        password={password}
-        onEmailChange={(e) => setEmail(e.target.value)}
-        onPasswordChange={(e) => setPassword(e.target.value)}
-        onSubmit={submit}
-      />
+      <main className="flex items-center flex-col">
+        <Register />
+        <p className="block sm:hidden width-full text-right text-gray-light">
+          Already have an account?{" "}
+          <Link href="/login">
+            <a className="text-primary-500">Login</a>
+          </Link>
+        </p>
+      </main>
     </>
   );
 };

@@ -5,6 +5,7 @@ import Divider from "./Divider";
 import Isotype from "../public/images/isotype.svg";
 import Logotype from "../public/images/logotype.svg";
 import BuyMeACoffee from "../public/images/buymeacoffee.svg";
+import LogoNextJS from "../public/images/icons/nextjs.svg";
 
 const Footer = () => {
   return (
@@ -36,9 +37,9 @@ const Footer = () => {
             Project deveploed using <strong>open source tools</strong>
           </h3>
           <div className="flex gap-4 justify-center md:justify-end">
-            <div className="block w-10 h-10 bg-white rounded" />
-            <div className="block w-10 h-10 bg-white rounded" />
-            <div className="block w-10 h-10 bg-white rounded" />
+            <LogoNextJS width="32px" height="32px" />
+            <LogoNextJS width="32px" height="32px" />
+            <LogoNextJS width="32px" height="32px" />
           </div>
         </div>
       </Container>

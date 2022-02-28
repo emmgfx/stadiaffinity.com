@@ -1,5 +1,9 @@
 import { useRouter } from "next/router";
 
+import Header from "../../components/Header";
+import Container from "../../components/Container";
+import Footer from "../../components/Footer";
+
 import { supabase } from "../../utils/supabaseClient";
 import { decodeId } from "../../utils/hashids";
 import { useSession } from "../../contexts/user";
@@ -9,18 +13,26 @@ import Cover from "../../components/Cover";
 
 const GameDetails = ({ game }) => {
   return (
-    <section className="">
-      <div className="flex justify-center mt-16 mb-24">
-        <h1 className="inline-block text-4xl font-bold">{game.name}</h1>
-      </div>
-      <div className="flex gap-8">
-        <div className="w-[200px]">
-          <Cover game={game} />
-        </div>
-        <pre>{JSON.stringify(game, null, 2)}</pre>
-        <GameStars gameId={game.id} currentRating={game.rating} />
-      </div>
-    </section>
+    <>
+      <Header />
+      <main>
+        <Container>
+          <section className="">
+            <div className="flex justify-center mt-16 mb-24">
+              <h1 className="inline-block text-4xl font-bold">{game.name}</h1>
+            </div>
+            <div className="flex gap-8">
+              <div className="w-[200px]">
+                <Cover game={game} />
+              </div>
+              <pre>{JSON.stringify(game, null, 2)}</pre>
+              <GameStars gameId={game.id} currentRating={game.rating} />
+            </div>
+          </section>
+        </Container>
+      </main>
+      <Footer />
+    </>
   );
 };
 
