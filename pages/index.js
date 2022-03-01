@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 
 import Header from "../components/Header";
@@ -10,7 +11,18 @@ import GamesGrid from "../components/GamesGrid";
 import Divider from "../components/Divider";
 import Steps from "../components/Home/Steps";
 
-const Home = ({ topGames }) => {
+const Home = () => {
+  const [topGames, setTopGames] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      // const { data, error } = await supabase.from("games").select().limit(10);
+      const { data, error } = await supabase.rpc("get_top_10");
+      if (error) console.error(error);
+      else setTopGames(data);
+    })();
+  }, []);
+
   return (
     <>
       <DecorativeCovers />
@@ -18,7 +30,10 @@ const Home = ({ topGames }) => {
       <Container>
         <HomeHeader />
         <Divider className="mb-12" />
-        <GamesGrid games={topGames} />
+        <GamesGrid
+          phantoms={topGames.length === 0 ? 10 : null}
+          games={topGames}
+        />
       </Container>
       <Steps />
       <Footer />
@@ -26,19 +41,12 @@ const Home = ({ topGames }) => {
   );
 };
 
-export const getServerSideProps = async (context) => {
-  const { data: topGames, error } = await supabase
-    .from("games")
-    .select()
-    .limit(10);
+// export const getServerSideProps = async (context) => {
 
-  if (error) console.error(error);
-
-  return {
-    props: {
-      topGames,
-    },
-  };
-};
+//   return {
+//     props: {
+//     },
+//   };
+// };
 
 export default Home;
