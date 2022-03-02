@@ -18,15 +18,16 @@ const GameDetails = ({ game }) => {
       <main>
         <Container>
           <section className="">
-            <div className="flex justify-center mt-16 mb-24">
+            <div className="mt-16 mb-16">
               <h1 className="inline-block text-4xl font-bold">{game.name}</h1>
             </div>
-            <div className="flex gap-8">
-              <div className="w-[200px]">
+            <div className="flex flex-col gap-8">
+              <div className="w-full max-w-[150px]">
                 <Cover game={game} />
               </div>
-              <pre>{JSON.stringify(game, null, 2)}</pre>
+              {/* <pre>{JSON.stringify(game, null, 2)}</pre> */}
               <GameStars gameId={game.id} currentRating={game.rating} />
+              <div className="h-32"></div>
             </div>
           </section>
         </Container>
@@ -38,7 +39,7 @@ const GameDetails = ({ game }) => {
 
 const GameStars = ({ gameId, currentRating }) => {
   return (
-    <div>
+    <div className="flex gap-2">
       <RatingButton gameId={gameId} rating={1} disabled={currentRating === 1} />
       <RatingButton gameId={gameId} rating={2} disabled={currentRating === 2} />
       <RatingButton gameId={gameId} rating={3} disabled={currentRating === 3} />
@@ -54,7 +55,7 @@ const RatingButton = ({ gameId, rating, disabled }) => {
 
   return (
     <button
-      className="p-2 rounded bg-teal-500 disabled:opacity-50"
+      className="w-8 h-8 rounded bg-teal-500 disabled:opacity-50"
       onClick={async () => {
         await updateRating(session.user.id, gameId, rating);
         router.replace(router.asPath); // Refresh data
