@@ -10,7 +10,7 @@ import GamesGrid from "../components/GamesGrid";
 
 const GameSuggestions = () => {
   const { session } = useSession();
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState(null);
 
   useEffect(() => {
     if (!session) return;
@@ -29,10 +29,10 @@ const GameSuggestions = () => {
       <main>
         <Container>
           <h1>Game suggestions</h1>
-          <GamesGrid
-            games={suggestions}
-            phantoms={suggestions.length === 0 ? 10 : null}
-          />
+          <GamesGrid games={suggestions} phantoms={!suggestions ? 5 : null} />
+          {suggestions && suggestions.length === 0 && (
+            <p>There are no suggestions for you. Rate some games.</p>
+          )}
           {/* <pre>{JSON.stringify(suggestions, null, 4)}</pre> */}
         </Container>
       </main>
