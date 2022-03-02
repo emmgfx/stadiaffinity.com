@@ -7,6 +7,7 @@ const InputFloatingLabel = ({
   type = "text",
   value = "",
   onChange = null,
+  disabled = false,
 }) => {
   const [focused, setFocused] = useState(false);
 
@@ -29,7 +30,7 @@ const InputFloatingLabel = ({
       )}
       <input
         className={classNames(
-          "text-white bg-gray-medium border border-white rounded-sm w-full pt-6 pb-2 px-3",
+          "text-white bg-gray-medium border border-white rounded-sm w-full pt-6 pb-2 px-3 disabled:opacity-50",
           "focus:outline-none focus:border-secondary-500 focus:shadow-secondary-500/40 focus:shadow-[0_0_6px_3px]"
         )}
         type={type}
@@ -37,6 +38,7 @@ const InputFloatingLabel = ({
         onChange={onChange}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        disabled={disabled}
       />
     </div>
   );
@@ -46,6 +48,7 @@ InputFloatingLabel.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
   label: PropTypes.string,
+  disabled: PropTypes.bool,
   type: PropTypes.oneOf(["text", "password", "email"]),
 };
 
