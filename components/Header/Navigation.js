@@ -98,12 +98,12 @@ const Navigation = () => {
               </DropDownLink>
             </li>
             <li>
-              <DropDownLink href="/" Icon={IconBookmarkCheck}>
+              <DropDownLink href="/saved-games" Icon={IconBookmarkCheck}>
                 Saved games
               </DropDownLink>
             </li>
             <li>
-              <DropDownLink href="/" Icon={IconGear}>
+              <DropDownLink href="/settings" Icon={IconGear}>
                 Settings
               </DropDownLink>
             </li>
