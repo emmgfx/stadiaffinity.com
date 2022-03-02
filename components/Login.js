@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
+import Router from "next/router";
+import { toast } from "react-toastify";
 
 import { supabase } from "../utils/supabaseClient";
 
@@ -9,18 +11,55 @@ import InputFloatingLabel from "../components/Form/InputFloatingLabel";
 import GoogleLogo from "../public/images/icons/logo-google.svg";
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signIn({
-      email,
-      password,
+    toast.promise(emailSignIn, {
+      pending: "Logging in...",
+      success: {
+        render(){
+          Router.push("/");
+          return 'Welcome!';
+        }
+      },
+      error: {
+        render({data: error}){
+          return error.message;
+        }
+      }
     });
-    if (error) alert(error.message);
-    console.log({ data, error });
-  };
+  }
+
+  const emailSignIn = () => new Promise((resolve, reject) => {
+    setLoading(true);
+    setTimeout(() => {
+      supabase.auth.signIn({
+        email,
+        password,
+      }).then(({ user, session, error }) => {
+        console.log({ user, session, error });
+        if(error) reject(error);
+        if(user) resolve(user);
+      }).finally(() => setLoading(false));
+    }, 1000);
+  });
+
+
+  // const submit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const { data, error } = await supabase.auth.signIn({
+  //     email,
+  //     password,
+  //   });
+  //   if (error) alert(error.message)
+  //   else Router.push("/")
+  //   setLoading(false);
+  //   console.log({ data, error });
+  // };
 
   const loginGoogle = async () => {
     const { user, session, error } = await supabase.auth.signIn(
@@ -57,6 +96,7 @@ const Login = () => {
           value={email}
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
         />
         <div className="h-4" />
         <InputFloatingLabel
@@ -65,6 +105,7 @@ const Login = () => {
           value={password}
           label="Password"
           onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
         />
         <div className="h-2" />
 
@@ -75,7 +116,8 @@ const Login = () => {
         <div className="h-8" />
         <button
           type="submit"
-          className="bg-primary-500 color-white font-semibold w-full p-4"
+          className="bg-primary-500 color-white font-semibold w-full p-4 disabled:opacity-50"
+          disabled={loading}
         >
           Log in
         </button>

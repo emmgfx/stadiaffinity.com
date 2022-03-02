@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Link from "next/link";
+import Router from "next/router";
 
 import { supabase } from "../utils/supabaseClient";
 
@@ -7,31 +7,40 @@ import TextGradient from "../components/TextGradient";
 import InputFloatingLabel from "../components/Form/InputFloatingLabel";
 
 import GoogleLogo from "../public/images/icons/logo-google.svg";
+import { toast } from "react-toastify";
 
-const Login = () => {
+const Register = () => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      alert(error.message);
-    }
-    console.log({ data, error });
+    emailSignUp()
+      .then(() => Router.push("/register-complete"))
+      .catch(({ message }) => toast.error(message));
   };
+
+  const emailSignUp = () =>
+    new Promise((resolve, reject) => {
+      setLoading(true);
+      setTimeout(() => {
+        supabase.auth
+          .signUp({ email, password })
+          .then(({ user, session, error }) => {
+            if (error) reject(error);
+            if (user) resolve(user);
+          })
+          .finally(() => setLoading(false));
+      }, 1000);
+    });
 
   const loginGoogle = async () => {
     const { user, session, error } = await supabase.auth.signIn(
       { provider: "google" },
       { redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO }
     );
-    if (error) alert(error.message);
-    console.log({ user, session, error });
+    if (error) toast.error(error.message);
   };
 
   return (
@@ -60,6 +69,7 @@ const Login = () => {
           value={email}
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
         />
         <div className="h-4" />
         <InputFloatingLabel
@@ -68,11 +78,13 @@ const Login = () => {
           value={password}
           label="Password"
           onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
         />
         <div className="h-8" />
         <button
           type="submit"
-          className="bg-primary-500 color-white font-semibold w-full p-4"
+          className="bg-primary-500 color-white font-semibold w-full p-4 disabled:opacity-50"
+          disabled={loading}
         >
           Create new account
         </button>
@@ -81,4 +93,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
