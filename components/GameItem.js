@@ -2,8 +2,8 @@ import Link from "next/link";
 import { encodeId } from "../utils/hashids";
 
 import Cover from "./Cover";
-
-import FilledStar from "../public/images/icons/star-game-item.svg";
+import Stars from "./Stars";
+import TextGradient from "./TextGradient";
 
 const GameItem = ({ game }) => {
   return (
@@ -17,14 +17,21 @@ const GameItem = ({ game }) => {
         <h3 className="font-medium mb-2">
           <Link href={`/game/${encodeId(game.id)}`}>{game.name}</Link>
         </h3>
-        <div className="flex gap-0.5">
-          <FilledStar />
-          <FilledStar />
-          <FilledStar />
-          <FilledStar />
-          <FilledStar />
-          <span className="ml-2 text-[#95949B] text-sm">(128)</span>
-        </div>
+        {game.intensity && (
+          <div className="font-bold">
+            <TextGradient>Affinity points:</TextGradient> {game.intensity}
+          </div>
+        )}
+        {game.average && (
+          <div className="flex items-center gap-0.5">
+            <Stars amount={game.average} />
+            {game.counter && (
+              <span className="ml-2 text-[#95949B] text-sm">
+                ({game.counter})
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </article>
   );
