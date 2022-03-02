@@ -30,7 +30,9 @@ const SignUpComplete = () => {
         <div className="h-6" />
         <p>Sign up complete.</p>
         <div className="h-3" />
-        <p>Please, look in your inbox for the email we've just sent you.</p>
+        <p>
+          Please, look in your inbox for the email we&apos;ve just sent you.
+        </p>
       </main>
     </>
   );
