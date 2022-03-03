@@ -8,12 +8,17 @@ import { supabase } from "../../utils/supabaseClient";
 import { decodeId } from "../../utils/hashids";
 import { useSession } from "../../contexts/user";
 import { updateRating } from "../../utils/api";
+import { formatTitle } from "../../utils/title";
 
 import Cover from "../../components/Cover";
+import Head from "next/head";
 
 const GameDetails = ({ game }) => {
   return (
     <>
+      <Head>
+        <title>{formatTitle(game.name)}</title>
+      </Head>
       <Header />
       <main>
         <Container>
@@ -73,6 +78,8 @@ export async function getServerSideProps(context) {
 
   const { hashedId } = context.params;
   const gameId = decodeId(hashedId);
+
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const { data: game, error } = user
     ? await supabase

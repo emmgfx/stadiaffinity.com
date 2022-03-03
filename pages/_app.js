@@ -6,6 +6,7 @@ import Head from "next/head";
 
 import { UserContextProvider } from "../contexts/user";
 import store from "../store/store";
+import { formatTitle } from "../utils/title";
 
 import IndeterminateProgressBar from "../components/IndeterminateProgressBar";
 
@@ -33,7 +34,7 @@ function MyApp({ Component, pageProps }) {
         <ToastContainer />
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>Stadiaffinity</title>
+          <title>{formatTitle()}</title>
         </Head>
         {routeChanging && <IndeterminateProgressBar />}
         <Component {...pageProps} />
