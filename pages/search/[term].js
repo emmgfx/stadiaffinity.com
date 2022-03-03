@@ -14,10 +14,9 @@ const Search = () => {
   useEffect(() => {
     if (!router.query.term) return;
     const search = async (term) => {
-      const { data, error } = await supabase
-        .from("games")
-        .select()
-        .ilike("name", `%${term}%`);
+      const { data, error } = await supabase.rpc("get_search", {
+        term_input: term,
+      });
       if (data) setResults(data);
       if (error) console.error(error);
     };
