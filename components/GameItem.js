@@ -17,15 +17,15 @@ const GameItem = ({ game }) => {
         <h3 className="font-medium mb-2">
           <Link href={`/game/${encodeId(game.id)}`}>{game.name}</Link>
         </h3>
-        {game.intensity && (
+        {"intensity" in game && (
           <div className="font-bold">
             <TextGradient>Affinity points:</TextGradient> {game.intensity}
           </div>
         )}
-        {game.average && (
+        {"average" in game && (
           <div className="flex items-center gap-0.5">
             <Stars amount={game.average} />
-            {game.counter && (
+            {"counter" in game && (
               <span className="ml-2 text-[#95949B] text-sm">
                 ({game.counter})
               </span>
