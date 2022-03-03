@@ -28,6 +28,7 @@ const GameDetails = ({ game }) => {
               {/* <pre>{JSON.stringify(game, null, 2)}</pre> */}
               <GameStars gameId={game.id} currentRating={game.rating} />
               <div className="h-32"></div>
+              {game.id}
             </div>
           </section>
         </Container>
