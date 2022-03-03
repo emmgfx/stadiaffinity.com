@@ -6,6 +6,8 @@ import Isotype from "../public/images/isotype.svg";
 import Logotype from "../public/images/logotype.svg";
 import BuyMeACoffee from "../public/images/buymeacoffee.svg";
 import LogoNextJS from "../public/images/icons/nextjs.svg";
+import LogoSupabase from "../public/images/icons/supabase.svg";
+import LogoTailwind from "../public/images/icons/tailwind.svg";
 
 const Footer = () => {
   return (
@@ -37,9 +39,9 @@ const Footer = () => {
             Project deveploed using <strong>open source tools</strong>
           </h3>
           <div className="flex gap-4 justify-center md:justify-end">
+            <LogoTailwind width="32px" height="32px" />
             <LogoNextJS width="32px" height="32px" />
-            <LogoNextJS width="32px" height="32px" />
-            <LogoNextJS width="32px" height="32px" />
+            <LogoSupabase width="32px" height="32px" />
           </div>
         </div>
       </Container>
