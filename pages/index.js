@@ -13,10 +13,8 @@ import Steps from "../components/Home/Steps";
 
 const Home = () => {
   const [topGames, setTopGames] = useState([]);
-
   useEffect(() => {
     (async () => {
-      // const { data, error } = await supabase.from("games").select().limit(10);
       const { data, error } = await supabase.rpc("get_top_10");
       if (error) console.error(error);
       else setTopGames(data);

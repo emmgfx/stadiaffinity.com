@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import GamesGrid from "../../components/GamesGrid";
 import Container from "../../components/Container";
+import TextGradient from "../../components/TextGradient";
 
 const Search = () => {
   const router = useRouter();
@@ -29,7 +30,8 @@ const Search = () => {
       <main>
         <Container>
           <h1 className="text-4xl my-10">
-            Results for <strong>{router.query.term}</strong>
+            <TextGradient>{results.length} results</TextGradient> for{" "}
+            <strong>{router.query.term}</strong>
           </h1>
           <GamesGrid games={results} />
           <div className="h-40" />

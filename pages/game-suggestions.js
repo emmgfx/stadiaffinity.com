@@ -1,26 +1,17 @@
-import { useState, useEffect } from "react";
-
-import { supabase } from "../utils/supabaseClient";
-import { useSession } from "../contexts/user";
-
 import Container from "../components/Container";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import GamesGrid from "../components/GamesGrid";
+import { useEffect } from "react";
+import { useSuggestions } from "../contexts/suggestions";
+import { useSession } from "../contexts/user";
 
 const GameSuggestions = () => {
   const { session } = useSession();
-  const [suggestions, setSuggestions] = useState(null);
+  const { suggestions, updateSuggestions } = useSuggestions();
 
   useEffect(() => {
-    if (!session) return;
-    (async () => {
-      const { data, error } = await supabase.rpc("get_game_recommendations", {
-        id_user_input: session.user.id,
-      });
-      if (error) console.error(error);
-      else setSuggestions(data);
-    })();
+    if (session) updateSuggestions();
   }, [session]);
 
   return (
@@ -29,7 +20,11 @@ const GameSuggestions = () => {
       <main>
         <Container>
           <h1>Game suggestions</h1>
-          <GamesGrid games={suggestions} phantoms={!suggestions ? 5 : null} />
+          <GamesGrid
+            games={suggestions}
+            phantoms={!suggestions ? 5 : null}
+            showAffinity={true}
+          />
           {suggestions && suggestions.length === 0 && (
             <p>There are no suggestions for you. Rate some games.</p>
           )}

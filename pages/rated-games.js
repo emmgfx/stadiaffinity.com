@@ -1,5 +1,4 @@
 import { supabase } from "../utils/supabaseClient";
-import { getRatedGames } from "../utils/api";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
@@ -46,7 +45,9 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-  let { data: ratedGames, error } = await getRatedGames(user.id);
+  const { data: ratedGames, error } = await supabase.rpc("get_user_ratings", {
+    id_user_input: user.id,
+  });
 
   if (error) {
     // Return 404 response.

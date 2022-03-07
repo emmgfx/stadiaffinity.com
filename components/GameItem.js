@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { encodeId } from "../utils/hashids";
+import { useSelector } from "react-redux";
 
 import Cover from "./Cover";
 import Stars from "./Stars";
 import TextGradient from "./TextGradient";
+import AffinityPercentage from "./AffinityPercentage";
 
-const GameItem = ({ game }) => {
+const GameItem = ({ game, showAffinity = false }) => {
   return (
     <article className="rounded overflow-hidden flex flex-col">
       <Link href={`/game/${encodeId(game.id)}`}>
@@ -17,9 +19,10 @@ const GameItem = ({ game }) => {
         <h3 className="font-medium mb-2">
           <Link href={`/game/${encodeId(game.id)}`}>{game.name}</Link>
         </h3>
-        {"intensity" in game && (
+        {showAffinity && (
           <div className="font-bold">
-            <TextGradient>Affinity points:</TextGradient> {game.intensity}
+            <TextGradient>Affinity:</TextGradient>{" "}
+            <AffinityPercentage gameId={game.id} />
           </div>
         )}
         {"average" in game && (

@@ -1,9 +1,16 @@
 import classNames from "classnames";
+import { useEffect } from "react";
+import { useSuggestions } from "../contexts/suggestions";
 
 import GameItem from "./GameItem";
 import GameItemPhantom from "./GameItemPhantom";
 
-const GamesGrid = ({ games = [], phantoms = 0, className }) => {
+const GamesGrid = ({
+  games = [],
+  phantoms = 0,
+  showAffinity = false,
+  className,
+}) => {
   return (
     <div
       className={classNames(
@@ -13,7 +20,9 @@ const GamesGrid = ({ games = [], phantoms = 0, className }) => {
     >
       {phantoms > 0
         ? [...Array(phantoms).keys()].map((v, i) => <GameItemPhantom key={i} />)
-        : games.map((game) => <GameItem key={game.id} game={game} />)}
+        : games.map((game) => (
+            <GameItem key={game.id} game={game} showAffinity={showAffinity} />
+          ))}
     </div>
   );
 };
