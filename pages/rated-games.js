@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import { supabase } from "../utils/supabaseClient";
 
 import Header from "../components/Header";
@@ -6,17 +8,30 @@ import Footer from "../components/Footer";
 import TextGradient from "../components/TextGradient";
 import GamesGrid from "../components/GamesGrid";
 
-const RatedGames = ({ ratedGames }) => {
+const RatedGames = ({ user }) => {
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    supabase
+      .rpc("get_user_ratings", {
+        id_user_input: user.id,
+      })
+      .then(({ data, error }) => {
+        if (error) alert(error.message);
+        else setGames(data);
+      });
+  }, [user.id, setGames]);
+
   return (
     <>
       <Header />
       <main>
         <Container>
           <h1 className="text-4xl my-10 font-semibold">
-            <TextGradient>{ratedGames.length} rated</TextGradient> games
+            <TextGradient>{games.length} rated</TextGradient> games
           </h1>
           <GamesGrid
-            games={ratedGames.map((game) => {
+            games={games.map((game) => {
               return {
                 id: game.id_game,
                 ...game,
@@ -39,27 +54,15 @@ export const getServerSideProps = async (context) => {
   if (!user) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/login",
         permanent: false,
       },
     };
   }
 
-  const { data: ratedGames, error } = await supabase.rpc("get_user_ratings", {
-    id_user_input: user.id,
-  });
-
-  if (error) {
-    // Return 404 response.
-    // No games found or something went wrong with the query
-    return {
-      notFound: true,
-    };
-  }
-
   return {
     props: {
-      ratedGames,
+      user,
     },
   };
 };
