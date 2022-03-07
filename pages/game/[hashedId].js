@@ -1,21 +1,18 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import { toast } from "react-toastify";
 
 import Header from "../../components/Header";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
+import Cover from "../../components/Cover";
+import AffinityPercentage from "../../components/AffinityPercentage";
+import SaveGameButton from "../../components/SaveGameButton";
 
 import { supabase } from "../../utils/supabaseClient";
 import { decodeId } from "../../utils/hashids";
 import { useSession } from "../../contexts/user";
 import { formatTitle } from "../../utils/title";
-
-import Cover from "../../components/Cover";
-import Head from "next/head";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
-import classNames from "classnames";
-import AffinityPercentage from "../../components/AffinityPercentage";
 
 const GameDetails = ({ game }) => {
   return (
@@ -37,16 +34,15 @@ const GameDetails = ({ game }) => {
                 <p>Affinity: Already rated</p>
               )}
             </div>
-            <div className="flex flex-col gap-8">
+            <SaveGameButton gameId={game.id} />
+            <div className="h-8" />
+            <div className="flex flex-col gap-8 justify-center items-start">
               <div className="w-full max-w-[150px]">
                 <Cover game={game} />
               </div>
-              {/* <pre>{JSON.stringify(game, null, 2)}</pre> */}
+              <pre>{JSON.stringify(game, null, 2)}</pre>
               <GameStars gameId={game.id} currentRating={game.rating} />
-              <div className="h-8"></div>
-              <GameSaved gameId={game.id} />
               <div className="h-32"></div>
-              {game.id}
             </div>
           </section>
         </Container>
@@ -114,75 +110,6 @@ const RatingButton = ({ gameId, rating, disabled }) => {
   );
 };
 
-const GameSaved = ({ gameId }) => {
-  const { session } = useSession();
-  const [saved, setSaved] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(async () => {
-    if (!session) return;
-    setLoading(true);
-    const { data: saved, error } = await supabase
-      .from("bookmarks")
-      .select()
-      .match({ id_game: gameId, id_user: session.user.id })
-      .maybeSingle();
-
-    if (error) toast.error(error.message);
-
-    setSaved(!!saved);
-    setLoading(false);
-  }, [session]);
-
-  const save = async () => {
-    if (loading) return;
-    if (!session) {
-      toast.warn("Login first");
-      return;
-    }
-    setLoading(true);
-    const { data, error } = await supabase.from("bookmarks").upsert(
-      {
-        id_user: session.user.id,
-        id_game: gameId,
-      },
-      { onConflict: "id_game,id_user" }
-    );
-    if (error) toast.warn(error.message);
-    else setSaved(true);
-    setLoading(false);
-  };
-
-  const unsave = async () => {
-    if (loading) return;
-    if (!session) {
-      toast.warn("Login first");
-      return;
-    }
-    setLoading(true);
-    console.log({ id_game: gameId, id_user: session.user.id });
-    const { data, error } = await supabase
-      .from("bookmarks")
-      .delete()
-      .match({ id_game: gameId, id_user: session.user.id });
-    if (error) toast.warn(error.message);
-    else setSaved(false);
-    setLoading(false);
-  };
-
-  return (
-    <button
-      onClick={saved ? unsave : save}
-      className={classNames("p-3 bg-secondary-500 rounded", {
-        "opacity-50": loading,
-        "bg-secondary-500": saved,
-        "bg-primary-500": !saved,
-      })}
-    >
-      {saved ? "Unsave" : "Save"}
-    </button>
-  );
-};
 export async function getServerSideProps(context) {
   const { user } = await supabase.auth.api.getUserByCookie(context.req);
 
