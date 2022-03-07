@@ -12,7 +12,7 @@ const GameSuggestions = () => {
 
   useEffect(() => {
     if (session) updateSuggestions();
-  }, [session]);
+  }, [session, updateSuggestions]);
 
   return (
     <>

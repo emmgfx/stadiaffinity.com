@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSession } from "../../contexts/user";
 
 import TextGradient from "../TextGradient";
+import IconStartGlowing from "../../public/images/star-glowing.svg";
 
 const Header = () => {
   const session = useSession();
@@ -20,7 +21,7 @@ const Header = () => {
       </div>
 
       <h2 className="flex items-center justify-center text-2xl font-light mb-4">
-        <img src="/images/star-glowing.svg" width={78} height={78} alt="" />
+        <IconStartGlowing width={78} height={78} />
         <span>
           <strong className="font-semibold text-alert">TOP 10</strong> RATED
           GAMES

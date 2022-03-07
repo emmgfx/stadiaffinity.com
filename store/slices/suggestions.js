@@ -8,7 +8,6 @@ export const suggestionsSlice = createSlice({
   },
   reducers: {
     setUpdating: (state, action) => {
-      console.log("setUpdating", action.payload);
       state.updating = action.payload;
     },
     setSuggestions: (state, action) => {

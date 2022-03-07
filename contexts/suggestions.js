@@ -13,7 +13,6 @@ export function SuggestionsContextProvider(props) {
   const updating = useRef(false);
 
   const updateSuggestions = () => {
-    console.log("updateSuggestions", { alreadyUpdating: updating.current });
     if (!session || updating.current) return;
     updating.current = true;
     supabase
@@ -31,7 +30,6 @@ export function SuggestionsContextProvider(props) {
   };
 
   const updateSuggestionsIfNeeded = () => {
-    console.log("updateSuggestionsIfNeeded", suggestions.length);
     if (suggestions.length === 0) updateSuggestions();
   };
 

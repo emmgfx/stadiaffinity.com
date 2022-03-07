@@ -11,24 +11,24 @@ import IconBookmarkFilled from "../public/images/icons/bookmark-filled.svg";
 const SaveGameButton = ({ gameId }) => {
   const { session } = useSession();
   const [saved, setSaved] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!session) return;
     if (!gameId) return;
 
     setLoading(true);
 
-    const { data: saved, error } = await supabase
+    supabase
       .from("bookmarks")
       .select()
       .match({ id_game: gameId, id_user: session.user.id })
-      .maybeSingle();
-
-    if (error) toast.error(error.message);
-
-    setSaved(!!saved);
-    setLoading(false);
+      .maybeSingle()
+      .then(({ data: saved, error }) => {
+        if (error) toast.error(error.message);
+        else setSaved(!!saved);
+      })
+      .finally(() => setLoading(false));
   }, [gameId, session, setSaved, setLoading]);
 
   const save = async () => {

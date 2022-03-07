@@ -20,46 +20,35 @@ const Login = () => {
     toast.promise(emailSignIn, {
       pending: "Logging in...",
       success: {
-        render(){
+        render() {
           Router.push("/");
-          return 'Welcome!';
-        }
+          return "Welcome!";
+        },
       },
       error: {
-        render({data: error}){
+        render({ data: error }) {
           return error.message;
-        }
-      }
+        },
+      },
     });
-  }
+  };
 
-  const emailSignIn = () => new Promise((resolve, reject) => {
-    setLoading(true);
-    setTimeout(() => {
-      supabase.auth.signIn({
-        email,
-        password,
-      }).then(({ user, session, error }) => {
-        console.log({ user, session, error });
-        if(error) reject(error);
-        if(user) resolve(user);
-      }).finally(() => setLoading(false));
-    }, 1000);
-  });
-
-
-  // const submit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   const { data, error } = await supabase.auth.signIn({
-  //     email,
-  //     password,
-  //   });
-  //   if (error) alert(error.message)
-  //   else Router.push("/")
-  //   setLoading(false);
-  //   console.log({ data, error });
-  // };
+  const emailSignIn = () =>
+    new Promise((resolve, reject) => {
+      setLoading(true);
+      setTimeout(() => {
+        supabase.auth
+          .signIn({
+            email,
+            password,
+          })
+          .then(({ user, session, error }) => {
+            if (error) reject(error);
+            if (user) resolve(user);
+          })
+          .finally(() => setLoading(false));
+      }, 1000);
+    });
 
   const loginGoogle = async () => {
     const { user, session, error } = await supabase.auth.signIn(
@@ -67,7 +56,6 @@ const Login = () => {
       { redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO }
     );
     if (error) alert(error.message);
-    console.log({ user, session, error });
   };
 
   return (

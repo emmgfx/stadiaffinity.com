@@ -25,7 +25,7 @@ const GameDetails = ({ game }) => {
         <Container>
           <section className="">
             <div className="mt-16 mb-16">
-              <h1 className="inline-block text-4xl font-bold">{game.name}</h1>
+              <h1 className="inline-block text-5xl">{game.name}</h1>
               {!game.rating ? (
                 <p>
                   Affinity: <AffinityPercentage gameId={game.id} />
@@ -132,8 +132,6 @@ export async function getServerSideProps(context) {
         .eq("id", gameId)
         .limit(1)
         .single();
-
-  console.log(game);
 
   return {
     props: {
