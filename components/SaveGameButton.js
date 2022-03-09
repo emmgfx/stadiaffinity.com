@@ -70,7 +70,7 @@ const SaveGameButton = ({ gameId }) => {
     <button
       onClick={saved ? unsave : save}
       className={classNames(
-        "p-1 pr-2 text-xs bg-secondary-500 rounded inline-flex gap-2 items-center",
+        "p-1 pr-2 text-xs rounded inline-flex gap-2 items-center",
         {
           "opacity-50": loading,
           "bg-primary-500 font-bold": saved,
