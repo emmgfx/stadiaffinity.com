@@ -124,15 +124,14 @@ const BlogPosts = ({ term = "", limit = 4, subtype = "post" }) => {
       .then((data) => {
         setPosts(data);
       });
-  }, [setPosts]);
-
+  }, [setPosts, term, limit, subtype]);
   return (
     <div>
       <h3>Related posts by StadiaHoy</h3>
       <div className="h-8" />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {posts.map((post) => (
-          <BlogPost post={post} />
+          <BlogPost key={post.id} post={post} />
         ))}
       </div>
     </div>
