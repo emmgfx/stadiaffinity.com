@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
 import { toast } from "react-toastify";
 
 import Header from "../../components/Header";
@@ -42,6 +44,8 @@ const GameDetails = ({ game }) => {
               </div>
               <pre>{JSON.stringify(game, null, 2)}</pre>
               <GameStars gameId={game.id} currentRating={game.rating} />
+              <div className="h-8" />
+              <BlogPosts term={game.name} />
               <div className="h-32"></div>
             </div>
           </section>
@@ -107,6 +111,48 @@ const RatingButton = ({ gameId, rating, disabled }) => {
     >
       {rating ? rating : "X"}
     </button>
+  );
+};
+
+const BlogPosts = ({ term = "", limit = 4, subtype = "post" }) => {
+  const [posts, setPosts] = useState([]);
+  const baseUrl = "https://stadiahoy.com/wp-json/wp/v2/";
+
+  useEffect(() => {
+    fetch(`${baseUrl}posts?search=${term}&subtype=${subtype}&per_page=${limit}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setPosts(data);
+      });
+  }, [setPosts]);
+
+  return (
+    <div>
+      <h3>Related posts by StadiaHoy</h3>
+      <div className="h-8" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {posts.map((post) => (
+          <BlogPost post={post} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const BlogPost = ({ post }) => {
+  return (
+    <article>
+      <h1 className="truncate mb-2">
+        <Link href={post.link}>
+          <a target="_blank">{post.title.rendered}</a>
+        </Link>
+      </h1>
+      <img
+        src={post.jetpack_featured_media_url}
+        className="w-full mb-2 rounded"
+      />
+      <div className="text-xs text-gray-500">{post.date}</div>
+    </article>
   );
 };
 
