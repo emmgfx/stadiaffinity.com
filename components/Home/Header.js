@@ -4,6 +4,7 @@ import { useSession } from "../../contexts/user";
 
 import TextGradient from "../TextGradient";
 import IconStartGlowing from "../../public/images/star-glowing.svg";
+import Button from "../Button";
 
 const Header = () => {
   const session = useSession();
@@ -14,9 +15,9 @@ const Header = () => {
           Your <TextGradient>ideal game</TextGradient> just a step away from you
         </h1>
         <Link href={session ? "/game-suggestions" : "/login"}>
-          <a className="inline-block bg-primary-500 text-white py-4 px-16">
+          <Button variant="orange" minWidth={true} tagName="a">
             Discover now
-          </a>
+          </Button>
         </Link>
       </div>
 

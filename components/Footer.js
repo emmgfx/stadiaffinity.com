@@ -5,9 +5,9 @@ import Divider from "./Divider";
 import Isotype from "../public/images/isotype.svg";
 import Logotype from "../public/images/logotype.svg";
 import BuyMeACoffee from "../public/images/buymeacoffee.svg";
-import LogoNextJS from "../public/images/icons/nextjs.svg";
-import LogoSupabase from "../public/images/icons/supabase.svg";
-import LogoTailwind from "../public/images/icons/tailwind.svg";
+import LogoNextJS from "../public/images/icons/logo-nextjs.svg";
+import LogoSupabase from "../public/images/icons/logo-supabase.svg";
+import LogoTailwind from "../public/images/icons/logo-tailwind.svg";
 
 const Footer = () => {
   return (

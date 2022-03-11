@@ -19,16 +19,16 @@ const SaveGameButton = ({ gameId }) => {
 
     setLoading(true);
 
-    supabase
-      .from("bookmarks")
-      .select()
-      .match({ id_game: gameId, id_user: session.user.id })
-      .maybeSingle()
-      .then(({ data: saved, error }) => {
-        if (error) toast.error(error.message);
-        else setSaved(!!saved);
-      })
-      .finally(() => setLoading(false));
+    (async () => {
+      const { data: saved, error } = await supabase
+        .from("bookmarks")
+        .select()
+        .match({ id_game: gameId, id_user: session.user.id })
+        .maybeSingle();
+      if (error) toast.error(error.message);
+      else setSaved(!!saved);
+      setLoading(false);
+    })();
   }, [gameId, session, setSaved, setLoading]);
 
   const save = async () => {

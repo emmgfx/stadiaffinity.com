@@ -1,0 +1,11 @@
+[debug] [2022-03-10T20:46:40.664Z] ----------------------------------------------------------------------
+[debug] [2022-03-10T20:46:40.665Z] Command:       /usr/local/bin/node /Users/emmgfx/.npm-global/bin/firebase deploy
+[debug] [2022-03-10T20:46:40.665Z] CLI Version:   10.2.2
+[debug] [2022-03-10T20:46:40.665Z] Platform:      darwin
+[debug] [2022-03-10T20:46:40.665Z] Node Version:  v12.22.10
+[debug] [2022-03-10T20:46:40.667Z] Time:          Thu Mar 10 2022 21:46:40 GMT+0100 (GMT+01:00)
+[debug] [2022-03-10T20:46:40.667Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-03-10T20:46:40.671Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[error] 
+[error] Error: Not in a Firebase app directory (could not locate firebase.json)

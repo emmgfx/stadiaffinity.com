@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -47,6 +49,11 @@ module.exports = {
         "in-out-back": "cubic-bezier(0.68, -0.55, 0.27, 1.55)",
       },
     },
+    screens: {
+      xs: "480px",
+      // => @media (min-width: 480px) { ... }
+      ...defaultTheme.screens,
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };

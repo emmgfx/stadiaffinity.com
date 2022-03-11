@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Link from "next/link";
 import { toast } from "react-toastify";
 
 import Header from "../../components/Header";
@@ -10,11 +8,21 @@ import Footer from "../../components/Footer";
 import Cover from "../../components/Cover";
 import AffinityPercentage from "../../components/AffinityPercentage";
 import SaveGameButton from "../../components/SaveGameButton";
+import BlogPosts from "../../components/BlogPosts";
+import TextGradient from "../../components/TextGradient";
 
 import { supabase } from "../../utils/supabaseClient";
 import { decodeId } from "../../utils/hashids";
 import { useSession } from "../../contexts/user";
 import { formatTitle } from "../../utils/title";
+import AffinityBar from "../../components/AffinityBar";
+import RatingBar from "../../components/RatingBar";
+
+import IconStarFilled from "../../public/images/icons/star-filled.svg";
+import Metascore from "../../components/Metascore";
+import Button from "../../components/Button";
+
+import IconStadiaLogo from "../../public/images/icons/logo-stadia.svg";
 
 const GameDetails = ({ game }) => {
   return (
@@ -25,133 +33,83 @@ const GameDetails = ({ game }) => {
       <Header />
       <main>
         <Container>
-          <section className="">
-            <div className="mt-16 mb-16">
-              <h1 className="inline-block text-5xl">{game.name}</h1>
-              {!game.rating ? (
-                <p>
-                  Affinity: <AffinityPercentage gameId={game.id} />
-                </p>
-              ) : (
-                <p>Affinity: Already rated</p>
-              )}
+          <section className="grid gap-10 grid-cols-1 md:grid-cols-[300px_auto] lg:grid-cols-[400px_auto] xl:items-center">
+            <div className="w-1/2 mx-auto md:w-full">
+              <Cover game={game} />
             </div>
-            <SaveGameButton gameId={game.id} />
-            <div className="h-8" />
-            <div className="flex flex-col gap-8 justify-center items-start">
-              <div className="w-full max-w-[150px]">
-                <Cover game={game} />
+            <div>
+              <SaveGameButton gameId={game.id} />
+              <div className="h-4" />
+              <h1 className="text-5xl">{game.name}</h1>
+              <div className="h-4" />
+              <Metadata />
+              <div className="h-12" />
+              <Ratings game={game} />
+              <div className="h-12" />
+              <AffinityBar gameId={game.id} />
+              <div className="h-12" />
+              <div className="flex flex-col sm:flex-row gap-6 wrap">
+                <Button tagName="a" href="#">
+                  <IconStadiaLogo width="24" height="24" />
+                  <TextGradient>Play on Stadia</TextGradient>
+                </Button>
+                <Button tagName="a" href="#" variant="white-outline">
+                  Read the review on <TextGradient>StadiaHoy</TextGradient>
+                </Button>
               </div>
-              <pre>{JSON.stringify(game, null, 2)}</pre>
-              <GameStars gameId={game.id} currentRating={game.rating} />
-              <div className="h-8" />
-              <BlogPosts term={game.name} />
-              <div className="h-32"></div>
             </div>
           </section>
+          <div className="h-16" />
+          <BlogPosts term={game.name} />
         </Container>
+        <div className="h-20" />
       </main>
       <Footer />
     </>
   );
 };
 
-const GameStars = ({ gameId, currentRating }) => {
+const Metadata = ({ game }) => {
   return (
-    <div className="flex gap-2">
-      <RatingButton
-        gameId={gameId}
-        rating={null}
-        disabled={currentRating === null}
-      />
-      <RatingButton gameId={gameId} rating={1} disabled={currentRating === 1} />
-      <RatingButton gameId={gameId} rating={2} disabled={currentRating === 2} />
-      <RatingButton gameId={gameId} rating={3} disabled={currentRating === 3} />
-      <RatingButton gameId={gameId} rating={4} disabled={currentRating === 4} />
-      <RatingButton gameId={gameId} rating={5} disabled={currentRating === 5} />
-    </div>
-  );
-};
-
-const RatingButton = ({ gameId, rating, disabled }) => {
-  const { session } = useSession();
-  const router = useRouter();
-
-  const onClick = async () => {
-    if (!session) {
-      toast("Login to rate games 😅 ");
-      return;
-    }
-    const { data, error } = rating
-      ? await supabase.from("ratings").upsert(
-          {
-            id_user: session.user.id,
-            id_game: gameId,
-            rating: rating,
-          },
-          { onConflict: "id_game,id_user" }
-        )
-      : await supabase
-          .from("ratings")
-          .delete()
-          .match({ id_game: gameId, id_user: session.user.id });
-    if (error) {
-      toast.error(error);
-    } else {
-      toast.success("Done!");
-    }
-    router.replace(router.asPath); // Refresh data
-  };
-
-  return (
-    <button
-      className="w-8 h-8 rounded bg-teal-500 disabled:opacity-50"
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {rating ? rating : "X"}
-    </button>
-  );
-};
-
-const BlogPosts = ({ term = "", limit = 4, subtype = "post" }) => {
-  const [posts, setPosts] = useState([]);
-  const baseUrl = "https://stadiahoy.com/wp-json/wp/v2/";
-
-  useEffect(() => {
-    fetch(`${baseUrl}posts?search=${term}&subtype=${subtype}&per_page=${limit}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPosts(data);
-      });
-  }, [setPosts, term, limit, subtype]);
-  return (
-    <div>
-      <h3>Related posts by StadiaHoy</h3>
-      <div className="h-8" />
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {posts.map((post) => (
-          <BlogPost key={post.id} post={post} />
-        ))}
+    <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 text-sm">
+      <div>
+        <strong>Release date:</strong> Unknown
+      </div>
+      <div>
+        <strong>Developer:</strong> Unknown
+      </div>
+      <div>
+        <strong>Game editor:</strong> Unknown
       </div>
     </div>
   );
 };
 
-const BlogPost = ({ post }) => {
+const Ratings = ({ game }) => {
   return (
-    <article>
-      <h1 className="truncate mb-2">
-        <Link href={post.link}>
-          <a target="_blank">{post.title.rendered}</a>
-        </Link>
-      </h1>
-      <img
-        src={post.jetpack_featured_media_url}
-        className="w-full mb-2 rounded"
-      />
-      <div className="text-xs text-gray-500">{post.date}</div>
-    </article>
+    <div className="flex flex-col lg:flex-row gap-5 lg:gap-16 text-sm">
+      <div>
+        <h3 className="mb-4 uppercase text-lg">Your rating</h3>
+        <RatingBar gameId={game.id} currentScore={game.user_rating} />
+      </div>
+      <div>
+        <h3 className="mb-4 uppercase text-lg">Stadiaffinity score</h3>
+        <div className="grid grid-cols-[24px_auto] gap-x-4 gap-y-2 items-center">
+          <IconStarFilled width={24} height={24} />
+          <span className="text-xl font-light leading-4">
+            <strong className="font-bold">{game.rating_average}</strong> / 5
+          </span>
+          <span />
+          <span className="text-sm font-normal text-white/50 leading-4">
+            {game.ratings_counter} ratings
+          </span>
+        </div>
+      </div>
+      <div>
+        <h3 className="mb-4 uppercase text-lg">Metascore</h3>
+        <Metascore score={game.metascore} />
+      </div>
+    </div>
   );
 };
 
@@ -161,22 +119,15 @@ export async function getServerSideProps(context) {
   const { hashedId } = context.params;
   const gameId = decodeId(hashedId);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const { data: game, error } = await supabase
+    .rpc("get_game_by_user", {
+      id_user_input: user?.id || null,
+      id_game_input: gameId,
+    })
+    .limit(1)
+    .single();
 
-  const { data: game, error } = user
-    ? await supabase
-        .rpc("get_game_by_user", {
-          id_user_input: user.id,
-          id_game_input: gameId,
-        })
-        .limit(1)
-        .single()
-    : await supabase
-        .from("games")
-        .select("id, name, created_at")
-        .eq("id", gameId)
-        .limit(1)
-        .single();
+  if (error) return { notFound: true };
 
   return {
     props: {
