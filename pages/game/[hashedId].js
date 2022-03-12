@@ -49,7 +49,11 @@ const GameDetails = ({ game }) => {
               <AffinityBar gameId={game.id} />
               <div className="h-12" />
               <div className="flex flex-col sm:flex-row gap-6 wrap">
-                <Button tagName="a" href="#">
+                <Button
+                  tagName="a"
+                  href="https://www.stadia.com"
+                  target="_blank"
+                >
                   <IconStadiaLogo width="24" height="24" />
                   <TextGradient>Play on Stadia</TextGradient>
                 </Button>
