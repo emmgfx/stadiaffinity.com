@@ -42,7 +42,7 @@ const GameDetails = ({ game }) => {
               <div className="h-4" />
               <h1 className="text-5xl">{game.name}</h1>
               <div className="h-4" />
-              <Metadata />
+              <Metadata game={game} />
               <div className="h-12" />
               <Ratings game={game} />
               <div className="h-12" />
@@ -57,9 +57,9 @@ const GameDetails = ({ game }) => {
                   <IconStadiaLogo width="24" height="24" />
                   <TextGradient>Play on Stadia</TextGradient>
                 </Button>
-                <Button tagName="a" href="#" variant="white-outline">
+                {/* <Button tagName="a" href="#" variant="white-outline">
                   Read the review on <TextGradient>StadiaHoy</TextGradient>
-                </Button>
+                </Button> */}
               </div>
             </div>
           </section>
@@ -77,13 +77,16 @@ const Metadata = ({ game }) => {
   return (
     <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 text-sm">
       <div>
-        <strong>Release date:</strong> Unknown
+        <strong>Release date:</strong>{" "}
+        {game.release_date
+          ? new Date(game.release_date).toLocaleDateString()
+          : "Unknown"}
       </div>
       <div>
-        <strong>Developer:</strong> Unknown
+        <strong>Developer:</strong> {game.developer || "Unknown"}
       </div>
       <div>
-        <strong>Game editor:</strong> Unknown
+        <strong>Game editor:</strong> {game.editor || "Unknown"}
       </div>
     </div>
   );
@@ -111,7 +114,7 @@ const Ratings = ({ game }) => {
       </div>
       <div>
         <h3 className="mb-4 uppercase text-lg">Metascore</h3>
-        <Metascore score={game.metascore} />
+        <Metascore score={game.metacritic_score} />
       </div>
     </div>
   );
