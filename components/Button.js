@@ -18,7 +18,7 @@ const Button = forwardRef(function Button(
     <Tag
       {...props}
       className={classNames(
-        "py-4 px-6 rounded-sm inline-flex justify-center items-center gap-2 truncate",
+        "py-4 px-6 rounded-sm inline-flex justify-center items-center gap-2 truncate disabled:opacity-50",
         {
           "bg-white text-gray-medium": variant === "white",
           "bg-primary-500 text-white": variant === "orange",

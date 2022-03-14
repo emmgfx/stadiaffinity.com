@@ -8,10 +8,11 @@ const InputFloatingLabel = ({
   value = "",
   onChange = null,
   disabled = false,
+  ...props
 }) => {
   const [focused, setFocused] = useState(false);
 
-  const floated = focused || value.length > 0;
+  const floated = type === "date" || focused || value?.length > 0;
 
   return (
     <div className="relative">
@@ -39,6 +40,7 @@ const InputFloatingLabel = ({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         disabled={disabled}
+        {...props}
       />
     </div>
   );
@@ -49,7 +51,7 @@ InputFloatingLabel.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool,
-  type: PropTypes.oneOf(["text", "password", "email"]),
+  type: PropTypes.oneOf(["text", "password", "email", "number", "date"]),
 };
 
 export default InputFloatingLabel;
