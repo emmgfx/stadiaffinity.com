@@ -35,7 +35,9 @@ const GameDetails = ({ game }) => {
         <Container>
           <section className="grid gap-10 grid-cols-1 md:grid-cols-[300px_auto] lg:grid-cols-[400px_auto] xl:items-center">
             <div className="w-1/2 mx-auto md:w-full">
-              <Cover game={game} />
+              <div className="rounded overflow-hidden">
+                <Cover game={game} />
+              </div>
             </div>
             <div>
               <SaveGameButton gameId={game.id} />

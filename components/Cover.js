@@ -6,7 +6,7 @@ import { getGameCover } from "../utils/images";
 const Cover = ({ game }) => {
   const [error, setError] = useState(false);
   return (
-    <div className="relative aspect-[3/4] bg-white/10 flex items-center justify-center rounded overflow-hidden">
+    <div className="relative aspect-[3/4] bg-white/10 flex items-center justify-center overflow-hidden">
       {error ? (
         <span className="p-8 text-center text-ellipsis overflow-hidden">
           {game.name}

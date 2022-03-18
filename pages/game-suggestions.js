@@ -19,7 +19,18 @@ const GameSuggestions = () => {
       <Header />
       <main>
         <Container>
-          <h1>Game suggestions</h1>
+          <h1 className="text-5xl mb-10">Game suggestions</h1>
+          <div className="bg-white/10 p-4 px-6 rounded-xl max-w-4xl mx-auto">
+            <p className="mb-2">
+              <strong>How it works?</strong>
+            </p>
+            <p>
+              This suggestions are calculated using the ratings you have given
+              and crossing them with the data of the rest of the users. You can
+              have most accurate suggestions the more ratings you give.
+            </p>
+          </div>
+          <div className="h-10" />
           <GamesGrid
             games={suggestions}
             phantoms={!suggestions ? 5 : null}
@@ -30,6 +41,7 @@ const GameSuggestions = () => {
           )}
           {/* <pre>{JSON.stringify(suggestions, null, 4)}</pre> */}
         </Container>
+        <div className="h-20" />
       </main>
       <Footer />
     </>

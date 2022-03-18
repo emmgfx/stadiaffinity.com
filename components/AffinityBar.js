@@ -11,7 +11,7 @@ const AffinityBar = ({ gameId }) => {
         style={{ width: `${affinity || 0}%` }}
       />
       {affinity ? (
-        <CenteredMessage message={`${affinity}% affinity with this game`} />
+        <CenteredMessage message={`${affinity}% affinity`} />
       ) : (
         <CenteredMessage message={`Affinity not aplicable`} />
       )}

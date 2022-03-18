@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 
 import Cover from "./Cover";
 import Stars from "./Stars";
-import TextGradient from "./TextGradient";
-import AffinityPercentage from "./AffinityPercentage";
+import AffinityBar from "./AffinityBar";
 
 const GameItem = ({ game, showAffinity = false }) => {
   return (
@@ -15,15 +14,17 @@ const GameItem = ({ game, showAffinity = false }) => {
           <Cover game={game} />
         </a>
       </Link>
-      <div className="px-4 py-6 bg-gradient-to-r from-gray-medium to-[#363740] flex-auto">
+      <div className="px-4 py-6 bg-gradient-to-r from-gray-medium to-[#363740] flex-auto flex flex-col">
         <h3 className="font-medium mb-2">
           <Link href={`/game/${encodeId(game.id)}`}>{game.name}</Link>
         </h3>
         {showAffinity && (
-          <div className="font-bold">
-            <TextGradient>Affinity:</TextGradient>{" "}
-            <AffinityPercentage gameId={game.id} />
-          </div>
+          <>
+            <div className="grow" />
+            <div className="font-bold">
+              <AffinityBar gameId={game.id} />
+            </div>
+          </>
         )}
         {"average" in game && (
           <div className="flex items-center gap-0.5">
