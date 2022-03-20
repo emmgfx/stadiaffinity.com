@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import Papa from "papaparse";
 
 import { supabase } from "../utils/supabaseClient";
 
@@ -13,6 +14,21 @@ import Button from "../components/Button";
 
 import IconBadgeCheck from "../public/images/icons/badge-check.svg";
 
+const getCSV = async () => {
+  const url =
+    "https://nddyfchsgrewkdbjnwcz.supabase.in/storage/v1/object/public/csvs/db-20220203.csv";
+
+  const response = await fetch(url);
+  const csv = await response.text();
+  const { data } = Papa.parse(csv, { header: true });
+  return data;
+};
+
+const getCSVGame = async (title) => {
+  const csv = await getCSV();
+  return csv.find((object) => object.Title === title);
+};
+
 const QuickQuestions = ({ game, totalGames, incompleteGames }) => {
   const router = useRouter();
   const [developer, setDeveloper] = useState("");
@@ -20,12 +36,27 @@ const QuickQuestions = ({ game, totalGames, incompleteGames }) => {
   const [metascore, setMetascore] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState(null);
 
   useEffect(() => {
     setDeveloper(game.developer || "");
     setEditor(game.editor || "");
     setMetascore(game.metacritic_score || "");
     setReleaseDate(game.releaseDate || "");
+
+    (async () => {
+      const csvGame = await getCSVGame(game.name);
+      if (csvGame) {
+        setSuggestions({
+          title: csvGame["Title"],
+          releaseDate: csvGame["Release Date"],
+          developer: csvGame["Developers"],
+          editor: csvGame["Publishers"],
+        });
+      } else {
+        setSuggestions(null);
+      }
+    })();
   }, [game]);
 
   const refresh = async () => {
@@ -77,6 +108,13 @@ const QuickQuestions = ({ game, totalGames, incompleteGames }) => {
             <div>
               <p>Quick questions about:</p>
               <h1 className="text-4xl font-semibold">{game.name}</h1>
+              <div className="h-4" />
+              {suggestions && (
+                <pre className="text-xs bg-white/10 p-2 rounded">
+                  CSV suggestions:{"\n"}
+                  {JSON.stringify(suggestions, null, 2)}
+                </pre>
+              )}
             </div>
           </div>
           <form onSubmit={update}>
