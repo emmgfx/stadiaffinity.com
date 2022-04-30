@@ -4,16 +4,14 @@ import Header from "../components/Header";
 import GamesGrid from "../components/GamesGrid";
 import { useEffect } from "react";
 import { useSuggestions } from "../contexts/suggestions";
-import { useSession } from "../contexts/user";
 import { supabase } from "../utils/supabaseClient";
 
 const GameSuggestions = () => {
-  const { session } = useSession();
   const { suggestions, updateSuggestions } = useSuggestions();
 
   useEffect(() => {
-    if (session) updateSuggestions();
-  }, [session, updateSuggestions]);
+    updateSuggestions();
+  }, [updateSuggestions]);
 
   return (
     <>
@@ -40,7 +38,6 @@ const GameSuggestions = () => {
           {suggestions && suggestions.length === 0 && (
             <p>There are no suggestions for you. Rate some games.</p>
           )}
-          {/* <pre>{JSON.stringify(suggestions, null, 4)}</pre> */}
         </Container>
         <div className="h-20" />
       </main>
