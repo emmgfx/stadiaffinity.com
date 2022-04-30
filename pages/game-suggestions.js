@@ -5,6 +5,7 @@ import GamesGrid from "../components/GamesGrid";
 import { useEffect } from "react";
 import { useSuggestions } from "../contexts/suggestions";
 import { useSession } from "../contexts/user";
+import { supabase } from "../utils/supabaseClient";
 
 const GameSuggestions = () => {
   const { session } = useSession();
@@ -47,5 +48,22 @@ const GameSuggestions = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { user } = await supabase.auth.api.getUserByCookie(context.req);
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 export default GameSuggestions;
