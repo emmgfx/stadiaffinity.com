@@ -15,7 +15,7 @@ const GameItem = ({ game, showAffinity = false }) => {
         </a>
       </Link>
       <div className="px-4 py-6 bg-gradient-to-r from-gray-medium to-[#363740] flex-auto flex flex-col">
-        <h3 className="font-medium mb-2">
+        <h3 className="font-medium mb-2 line-clamp-2">
           <Link href={`/game/${encodeId(game.id)}`}>{game.name}</Link>
         </h3>
         {showAffinity && (
