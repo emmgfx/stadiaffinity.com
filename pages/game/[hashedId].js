@@ -1,19 +1,15 @@
-import { useRouter } from "next/router";
 import Head from "next/head";
-import { toast } from "react-toastify";
 
 import Header from "../../components/Header";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import Cover from "../../components/Cover";
-import AffinityPercentage from "../../components/AffinityPercentage";
 import SaveGameButton from "../../components/SaveGameButton";
 import BlogPosts from "../../components/BlogPosts";
 import TextGradient from "../../components/TextGradient";
 
 import { supabase } from "../../utils/supabaseClient";
 import { decodeId } from "../../utils/hashids";
-import { useSession } from "../../contexts/user";
 import { formatTitle } from "../../utils/title";
 import AffinityBar from "../../components/AffinityBar";
 import RatingBar from "../../components/RatingBar";
