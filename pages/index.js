@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 
 import Header from "../components/Header";
@@ -11,16 +10,7 @@ import GamesGrid from "../components/GamesGrid";
 import Divider from "../components/Divider";
 import Steps from "../components/Home/Steps";
 
-const Home = () => {
-  const [topGames, setTopGames] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const { data, error } = await supabase.rpc("get_top_10");
-      if (error) console.error(error);
-      else setTopGames(data);
-    })();
-  }, []);
-
+const Home = ({ topGames }) => {
   return (
     <>
       <DecorativeCovers />
@@ -39,12 +29,15 @@ const Home = () => {
   );
 };
 
-// export const getServerSideProps = async (context) => {
+export async function getStaticProps(context) {
+  const { data, error } = await supabase.rpc("get_top_10");
 
-//   return {
-//     props: {
-//     },
-//   };
-// };
+  return {
+    props: {
+      topGames: data,
+    },
+    revalidate: 60 * 10, // In seconds, 10 minutes.
+  };
+}
 
 export default Home;
