@@ -1,18 +1,22 @@
-import { useContext, createContext, useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setSuggestions, setUpdating } from "../store/slices/suggestions";
+import {
+  useContext,
+  createContext,
+  useRef,
+  useCallback,
+  useState,
+} from "react";
 import { supabase } from "../utils/supabaseClient";
+
 import { useSession } from "./user";
 
 export const SuggestionsContext = createContext(null);
 
 export function SuggestionsContextProvider(props) {
-  const dispatch = useDispatch();
   const { session } = useSession();
-  const { suggestions } = useSelector((state) => state.suggestions);
+  const [suggestions, setSuggestions] = useState([]);
   const updating = useRef(false);
 
-  const updateSuggestions = () => {
+  const updateSuggestions = useCallback(() => {
     if (!session || updating.current) return;
     updating.current = true;
     supabase
@@ -20,18 +24,15 @@ export function SuggestionsContextProvider(props) {
         id_user_input: session.user.id,
       })
       .then(({ data, error }) => {
-        if (error) {
-          console.error(error);
-        } else {
-          dispatch(setSuggestions(data));
-        }
+        if (error) console.error(error);
+        else setSuggestions(data);
       })
       .finally(() => (updating.current = false));
-  };
+  }, [session]);
 
-  const updateSuggestionsIfNeeded = () => {
+  const updateSuggestionsIfNeeded = useCallback(() => {
     if (suggestions.length === 0) updateSuggestions();
-  };
+  }, [suggestions, updateSuggestions]);
 
   const value = {
     suggestions,
