@@ -66,6 +66,26 @@ const QuickQuestions = ({ game, totalGames, incompleteGames }) => {
     setLoading(false);
   };
 
+  const copySuggestions = () => {
+    const dateParts = suggestions.releaseDate.split("/");
+    console.log(suggestions.releaseDate);
+    console.log(dateParts);
+    console.log(
+      `${dateParts[2]}-${dateParts[1].padStart(2, "0")}-${dateParts[0].padStart(
+        2,
+        "0"
+      )}`
+    );
+    setReleaseDate(
+      `${dateParts[2]}-${dateParts[1].padStart(2, "0")}-${dateParts[0].padStart(
+        2,
+        "0"
+      )}`
+    );
+    setDeveloper(suggestions.developer);
+    setEditor(suggestions.editor);
+  };
+
   const update = async (e) => {
     if (loading) return;
     e.preventDefault();
@@ -148,9 +168,17 @@ const QuickQuestions = ({ game, totalGames, incompleteGames }) => {
               />
             </div>
             <div className="h-4" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Button variant="white" disabled={loading} type="submit">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Button variant="orange" disabled={loading} type="submit">
                 Save data
+              </Button>
+              <Button
+                variant="white"
+                disabled={loading}
+                type="button"
+                onClick={copySuggestions}
+              >
+                Copy suggestions
               </Button>
               <Button
                 variant="white-outline"
