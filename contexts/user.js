@@ -22,6 +22,8 @@ export function UserContextProvider(props) {
       async (event, session) => {
         switch (event) {
           case "PASSWORD_RECOVERY":
+            alert(JSON.stringify(session));
+            alert(JSON.stringify(event));
             router.push("reset-password");
             break;
           default:
