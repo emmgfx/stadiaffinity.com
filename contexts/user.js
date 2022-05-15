@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext, createContext, useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 
@@ -7,6 +8,7 @@ export const UserContext = createContext(null);
 // UserContextProvider is the parent element of the entire application
 export function UserContextProvider(props) {
   const [session, setSession] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     // get session for user
@@ -18,14 +20,20 @@ export function UserContextProvider(props) {
     // and a POST request will be made to the /api/auth route
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        setSession(session);
-        await fetch("/api/auth", {
-          method: "POST",
-          body: JSON.stringify({ event, session }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        switch (event) {
+          case "PASSWORD_RECOVERY":
+            router.push("reset-password");
+            break;
+          default:
+            setSession(session);
+            await fetch("/api/auth", {
+              method: "POST",
+              body: JSON.stringify({ event, session }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+        }
       }
     );
 
