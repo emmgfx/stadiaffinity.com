@@ -12,11 +12,13 @@ import Button from "../components/Button";
 
 const ResetPassword = ({}) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [newPassword1, setNewPassword1] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
 
   const performReset = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (newPassword1 !== newPassword2) {
       toast.error("Passwords don't match");
       return;
@@ -26,6 +28,11 @@ const ResetPassword = ({}) => {
       router.query.access_token,
       { password: newPassword1 }
     );
+    setLoading(false);
+    if (!error) {
+      router.push("/login");
+      toast.success("Password updated");
+    }
     console.log("response", { error, data });
   };
   return (
@@ -51,7 +58,7 @@ const ResetPassword = ({}) => {
               onChange={(e) => setNewPassword2(e.target.value)}
             />
             <div className="h-4" />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={loading}>
               Change password
             </Button>
           </form>
