@@ -31,7 +31,7 @@ const ResetPassword = ({}) => {
       <main>
         <Container>
           <h1 className="text-4xl my-10 font-semibold text-center">
-            What's your new password?
+            What&apos;s your new password?
           </h1>
           <form onSubmit={performReset} className="max-w-xs mx-auto">
             <InputFloatingLabel
