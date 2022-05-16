@@ -23,8 +23,10 @@ export function UserContextProvider(props) {
         switch (event) {
           case "PASSWORD_RECOVERY":
             alert(JSON.stringify(session));
-            alert(JSON.stringify(event));
-            router.push("reset-password");
+            router.push({
+              pathname: "/reset-password",
+              query: { access_token: session.access_token },
+            });
             break;
           default:
             setSession(session);
