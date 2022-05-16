@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 import { supabase } from "../utils/supabaseClient";
 
@@ -20,11 +21,12 @@ const ResetPassword = ({}) => {
       toast.error("Passwords don't match");
       return;
     }
-    console.log(router.query);
-    const { error, data } = await supabase.auth.api.updateUser(access_token, {
-      password: newPassword1,
-    });
-    console.log({ error, data });
+    console.log("query", router.query);
+    const { error, data } = await supabase.auth.api.updateUser(
+      router.query.access_token,
+      { password: newPassword1 }
+    );
+    console.log("response", { error, data });
   };
   return (
     <>
