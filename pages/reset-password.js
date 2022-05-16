@@ -14,7 +14,8 @@ const ResetPassword = ({}) => {
   const [newPassword1, setNewPassword1] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
 
-  const performReset = async () => {
+  const performReset = async (e) => {
+    e.preventDefault();
     if (newPassword1 !== newPassword2) {
       toast.error("Passwords don't match");
       return;
