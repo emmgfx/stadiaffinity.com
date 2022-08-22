@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import classNames from "classnames";
 
 import { supabase } from "../utils/supabaseClient";
 import { useSession } from "../contexts/user";
@@ -8,10 +8,8 @@ import { useSuggestions } from "../contexts/suggestions";
 
 import IconStarEmpty from "../public/images/icons/star-empty.svg";
 import IconStarFilled from "../public/images/icons/star-filled.svg";
-import classNames from "classnames";
 
 const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
-  const router = useRouter();
   const { session } = useSession();
   const { updateSuggestions } = useSuggestions();
 
@@ -33,7 +31,6 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
       .delete()
       .match({ id_game: gameId, id_user: session.user.id });
     setUpdating(false);
-    // router.replace(router.asPath); // Refresh data
     fetchUserRelatedData();
     updateSuggestions();
   };
@@ -53,6 +50,7 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 1}
             updating={updating}
             setUpdating={setUpdating}
+            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -114,9 +112,9 @@ const RatingButton = ({
   onMouseLeave,
   updating,
   setUpdating,
+  fetchUserRelatedData,
 }) => {
   const { session } = useSession();
-  const router = useRouter();
   const { updateSuggestions } = useSuggestions();
 
   const onClick = async () => {
@@ -141,7 +139,7 @@ const RatingButton = ({
     } else {
       toast.success(`Rated with ${score} stars`);
     }
-    router.replace(router.asPath); // Refresh data
+    fetchUserRelatedData();
   };
 
   return (
