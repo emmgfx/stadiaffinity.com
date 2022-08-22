@@ -10,7 +10,7 @@ import IconStarEmpty from "../public/images/icons/star-empty.svg";
 import IconStarFilled from "../public/images/icons/star-filled.svg";
 import classNames from "classnames";
 
-const RatingBar = ({ gameId, currentScore }) => {
+const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
   const router = useRouter();
   const { session } = useSession();
   const { updateSuggestions } = useSuggestions();
@@ -21,6 +21,7 @@ const RatingBar = ({ gameId, currentScore }) => {
   useEffect(() => {
     setHover(currentScore);
   }, [currentScore, setHover]);
+
   const removeRating = async () => {
     if (!session) {
       toast("Login to rate games 😅 ");
@@ -32,7 +33,8 @@ const RatingBar = ({ gameId, currentScore }) => {
       .delete()
       .match({ id_game: gameId, id_user: session.user.id });
     setUpdating(false);
-    router.replace(router.asPath); // Refresh data
+    // router.replace(router.asPath); // Refresh data
+    fetchUserRelatedData();
     updateSuggestions();
   };
 

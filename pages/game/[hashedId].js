@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 
 import { supabase } from "../../utils/supabaseClient";
@@ -25,21 +25,23 @@ const GameDetails = ({ game }) => {
   const { session } = useSession();
   const [userRating, setUserRating] = useState(null);
 
-  useEffect(() => {
+  const fetchUserRelatedData = useCallback(async () => {
     if (!session) return;
-    const fetchUserRelatedData = async () => {
-      const { data, error } = await supabase
-        .rpc("get_game_by_user", {
-          id_user_input: session.user.id,
-          id_game_input: game.id,
-        })
-        .limit(1)
-        .single();
-      setUserRating(data.user_rating);
-    };
 
-    fetchUserRelatedData();
+    const { data, error } = await supabase
+      .rpc("get_game_by_user", {
+        id_user_input: session.user.id,
+        id_game_input: game.id,
+      })
+      .limit(1)
+      .single();
+    if (error) return;
+    setUserRating(data.user_rating);
   }, [game.id, session, setUserRating]);
+
+  useEffect(() => {
+    fetchUserRelatedData();
+  }, [fetchUserRelatedData]);
 
   return (
     <>
@@ -62,7 +64,11 @@ const GameDetails = ({ game }) => {
               <div className="h-4" />
               <Metadata game={game} />
               <div className="h-12" />
-              <Ratings game={game} userRating={userRating} />
+              <Ratings
+                game={game}
+                userRating={userRating}
+                fetchUserRelatedData={fetchUserRelatedData}
+              />
               <div className="h-12" />
               <AffinityBar gameId={game.id} />
               <div className="h-12" />
@@ -108,12 +114,16 @@ const Metadata = ({ game }) => {
   );
 };
 
-const Ratings = ({ game, userRating }) => {
+const Ratings = ({ game, userRating, fetchUserRelatedData }) => {
   return (
     <div className="flex flex-col lg:flex-row gap-5 lg:gap-16 text-sm">
       <div>
         <h3 className="mb-4 uppercase text-lg">Your rating</h3>
-        <RatingBar gameId={game.id} currentScore={userRating} />
+        <RatingBar
+          gameId={game.id}
+          currentScore={userRating}
+          fetchUserRelatedData={fetchUserRelatedData}
+        />
       </div>
       <div>
         <h3 className="mb-4 uppercase text-lg">Stadiaffinity score</h3>
