@@ -1,4 +1,10 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
+
+import { supabase } from "../../utils/supabaseClient";
+import { decodeId } from "../../utils/hashids";
+import { formatTitle } from "../../utils/title";
+import { useSession } from "../../contexts/user";
 
 import Header from "../../components/Header";
 import Container from "../../components/Container";
@@ -7,20 +13,34 @@ import Cover from "../../components/Cover";
 import SaveGameButton from "../../components/SaveGameButton";
 import BlogPosts from "../../components/BlogPosts";
 import TextGradient from "../../components/TextGradient";
-
-import { supabase } from "../../utils/supabaseClient";
-import { decodeId } from "../../utils/hashids";
-import { formatTitle } from "../../utils/title";
 import AffinityBar from "../../components/AffinityBar";
 import RatingBar from "../../components/RatingBar";
+import Button from "../../components/Button";
 
 import IconStarFilled from "../../public/images/icons/star-filled.svg";
 import Metascore from "../../components/Metascore";
-import Button from "../../components/Button";
-
 import IconStadiaLogo from "../../public/images/icons/logo-stadia.svg";
 
 const GameDetails = ({ game }) => {
+  const { session } = useSession();
+  const [userRating, setUserRating] = useState(null);
+
+  useEffect(() => {
+    if (!session) return;
+    const fetchUserRelatedData = async () => {
+      const { data, error } = await supabase
+        .rpc("get_game_by_user", {
+          id_user_input: session.user.id,
+          id_game_input: game.id,
+        })
+        .limit(1)
+        .single();
+      setUserRating(data.user_rating);
+    };
+
+    fetchUserRelatedData();
+  }, [game.id, session, setUserRating]);
+
   return (
     <>
       <Head>
@@ -42,7 +62,7 @@ const GameDetails = ({ game }) => {
               <div className="h-4" />
               <Metadata game={game} />
               <div className="h-12" />
-              <Ratings game={game} />
+              <Ratings game={game} userRating={userRating} />
               <div className="h-12" />
               <AffinityBar gameId={game.id} />
               <div className="h-12" />
@@ -76,9 +96,7 @@ const Metadata = ({ game }) => {
     <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 text-sm">
       <div>
         <strong>Release date:</strong>{" "}
-        {game.release_date
-          ? new Date(game.release_date).toLocaleDateString()
-          : "Unknown"}
+        {game.release_date ? game.release_date : "Unknown"}
       </div>
       <div>
         <strong>Developer:</strong> {game.developer || "Unknown"}
@@ -90,12 +108,12 @@ const Metadata = ({ game }) => {
   );
 };
 
-const Ratings = ({ game }) => {
+const Ratings = ({ game, userRating }) => {
   return (
     <div className="flex flex-col lg:flex-row gap-5 lg:gap-16 text-sm">
       <div>
         <h3 className="mb-4 uppercase text-lg">Your rating</h3>
-        <RatingBar gameId={game.id} currentScore={game.user_rating} />
+        <RatingBar gameId={game.id} currentScore={userRating} />
       </div>
       <div>
         <h3 className="mb-4 uppercase text-lg">Stadiaffinity score</h3>
@@ -118,15 +136,20 @@ const Ratings = ({ game }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const { user } = await supabase.auth.api.getUserByCookie(context.req);
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+}
 
+export async function getStaticProps(context) {
   const { hashedId } = context.params;
   const gameId = decodeId(hashedId);
 
   const { data: game, error } = await supabase
     .rpc("get_game_by_user", {
-      id_user_input: user?.id || null,
+      id_user_input: null,
       id_game_input: gameId,
     })
     .limit(1)
@@ -138,6 +161,7 @@ export async function getServerSideProps(context) {
     props: {
       game,
     },
+    revalidate: 60 * 60 * 24, // 1 day
   };
 }
 
