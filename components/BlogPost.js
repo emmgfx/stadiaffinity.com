@@ -6,6 +6,7 @@ const BlogPost = ({ post }) => {
       <img
         src={post.jetpack_featured_media_url}
         className="w-full aspect-video object-cover"
+        alt=""
       />
       <div className="p-6 bg-white/10 flex-grow">
         <div className="font-normal text-sm mb-2">
