@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Provider } from "react-redux";
 import { ToastContainer, Slide } from "react-toastify";
 import Head from "next/head";
 
 import { UserContextProvider } from "../contexts/user";
-import store from "../store/store";
 import { formatTitle } from "../utils/title";
 
 import IndeterminateProgressBar from "../components/IndeterminateProgressBar";
@@ -30,27 +28,22 @@ function MyApp({ Component, pageProps }) {
   }, [router.events]);
 
   return (
-    <Provider store={store}>
-      <UserContextProvider>
-        <SuggestionsContextProvider>
-          <ToastContainer
-            transition={Slide}
-            draggable={false}
-            hideProgressBar={true}
-            autoClose={3000}
-          />
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-            <title>{formatTitle()}</title>
-          </Head>
-          {routeChanging && <IndeterminateProgressBar />}
-          <Component {...pageProps} />
-        </SuggestionsContextProvider>
-      </UserContextProvider>
-    </Provider>
+    <UserContextProvider>
+      <SuggestionsContextProvider>
+        <ToastContainer
+          transition={Slide}
+          draggable={false}
+          hideProgressBar={true}
+          autoClose={3000}
+        />
+        <Head>
+          <title>{formatTitle()}</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        {routeChanging && <IndeterminateProgressBar />}
+        <Component {...pageProps} />
+      </SuggestionsContextProvider>
+    </UserContextProvider>
   );
 }
 

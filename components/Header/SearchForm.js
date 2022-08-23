@@ -1,12 +1,10 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-import { setTerm } from "../../store/slices/search";
+import { useSearchStore } from "../../store/stores";
 
 const SearchForm = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { term } = useSelector((state) => state.search);
+  const { term, setTerm } = useSearchStore((state) => state);
 
   const submit = (e) => {
     e.preventDefault();
@@ -30,7 +28,7 @@ const SearchForm = () => {
         value={term}
         className="w-full py-3 px-4 pl-11 text-center rounded-full bg-white/10 focus:bg-white/20 backdrop-blur-lg font-extralight focus:outline-none placeholder:text-white"
         placeholder="Search games and rate them"
-        onChange={(e) => dispatch(setTerm(e.target.value))}
+        onChange={(e) => setTerm(e.target.value)}
       />
     </form>
   );
