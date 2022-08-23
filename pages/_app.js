@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { ToastContainer, Slide } from "react-toastify";
-import Head from "next/head";
 
 import { UserContextProvider } from "../contexts/user";
+import { SuggestionsContextProvider } from "../contexts/suggestions";
 import { formatTitle } from "../utils/title";
 
 import IndeterminateProgressBar from "../components/IndeterminateProgressBar";
 
-import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import { SuggestionsContextProvider } from "../contexts/suggestions";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
