@@ -60,6 +60,7 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 2}
             updating={updating}
             setUpdating={setUpdating}
+            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -69,6 +70,7 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 3}
             updating={updating}
             setUpdating={setUpdating}
+            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -78,6 +80,7 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 4}
             updating={updating}
             setUpdating={setUpdating}
+            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -87,6 +90,7 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 5}
             updating={updating}
             setUpdating={setUpdating}
+            fetchUserRelatedData={fetchUserRelatedData}
           />
         </div>
         <button
