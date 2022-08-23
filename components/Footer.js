@@ -62,9 +62,10 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center text-center md:justify-between gap-4">
           <p className="text-center md:text-left">
             &copy; 2022,{" "}
-            <Link href="https://www.viciana.me">
+            <Link href="https://www.wearemarmota.com">
               <a target="_blank">we are Marmota</a>
             </Link>
+            .
           </p>
           <p className="flex flex-col md:flex-row gap-2 md:gap-10 justify-center md:justify-end">
             <Link href="https://www.viciana.me">
