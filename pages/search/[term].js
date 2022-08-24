@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
-import { supabase } from "../../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -19,7 +18,7 @@ const Search = () => {
     setSearching(true);
     setResults([]);
     const search = async (term) => {
-      const { data, error } = await supabase.rpc("get_search", {
+      const { data, error } = await supabaseClient.rpc("get_search", {
         term_input: term,
       });
       if (data) setResults(data);

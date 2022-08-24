@@ -1,46 +1,45 @@
 import { useState, useEffect } from "react";
+import { useUser } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import classNames from "classnames";
 import { toast } from "react-toastify";
-
-import { useSession } from "../contexts/user";
-import { supabase } from "../utils/supabaseClient";
 
 import IconBookmarkEmpty from "../public/images/icons/bookmark-empty.svg";
 import IconBookmarkFilled from "../public/images/icons/bookmark-filled.svg";
 
 const SaveGameButton = ({ gameId }) => {
-  const { session } = useSession();
+  const { user } = useUser();
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!session) return;
+    if (!user) return;
     if (!gameId) return;
 
     setLoading(true);
 
     (async () => {
-      const { data: saved, error } = await supabase
+      const { data: saved, error } = await supabaseClient
         .from("bookmarks")
         .select()
-        .match({ id_game: gameId, id_user: session.user.id })
+        .match({ id_game: gameId, id_user: user.id })
         .maybeSingle();
       if (error) toast.error(error.message);
       else setSaved(!!saved);
       setLoading(false);
     })();
-  }, [gameId, session, setSaved, setLoading]);
+  }, [gameId, user, setSaved, setLoading]);
 
   const save = async () => {
     if (loading) return;
-    if (!session) {
+    if (!user) {
       toast.warn("Login first");
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.from("bookmarks").upsert(
+    const { data, error } = await supabaseClient.from("bookmarks").upsert(
       {
-        id_user: session.user.id,
+        id_user: user.id,
         id_game: gameId,
       },
       { onConflict: "id_game,id_user" }
@@ -52,15 +51,15 @@ const SaveGameButton = ({ gameId }) => {
 
   const unsave = async () => {
     if (loading) return;
-    if (!session) {
+    if (!user) {
       toast.warn("Login first");
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("bookmarks")
       .delete()
-      .match({ id_game: gameId, id_user: session.user.id });
+      .match({ id_game: gameId, id_user: user.id });
     if (error) toast.warn(error.message);
     else setSaved(false);
     setLoading(false);

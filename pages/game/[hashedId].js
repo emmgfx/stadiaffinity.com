@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
+import { useUser } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
-import { supabase } from "../../utils/supabaseClient";
 import { decodeId } from "../../utils/hashids";
 import { formatTitle } from "../../utils/title";
-import { useSession } from "../../contexts/user";
 
 import Header from "../../components/Header";
 import Container from "../../components/Container";
@@ -22,22 +22,22 @@ import Metascore from "../../components/Metascore";
 import IconStadiaLogo from "../../public/images/icons/logo-stadia.svg";
 
 const GameDetails = ({ game }) => {
-  const { session } = useSession();
+  const { user } = useUser();
   const [userRating, setUserRating] = useState(null);
 
   const fetchUserRelatedData = useCallback(async () => {
-    if (!session) return;
+    if (!user) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .rpc("get_game_by_user", {
-        id_user_input: session.user.id,
+        id_user_input: user.id,
         id_game_input: game.id,
       })
       .limit(1)
       .single();
     if (error) return;
     setUserRating(data.user_rating);
-  }, [game.id, session, setUserRating]);
+  }, [game.id, user, setUserRating]);
 
   useEffect(() => {
     fetchUserRelatedData();
@@ -157,7 +157,7 @@ export async function getStaticProps(context) {
   const { hashedId } = context.params;
   const gameId = decodeId(hashedId);
 
-  const { data: game, error } = await supabase
+  const { data: game, error } = await supabaseClient
     .rpc("get_game_by_user", {
       id_user_input: null,
       id_game_input: gameId,

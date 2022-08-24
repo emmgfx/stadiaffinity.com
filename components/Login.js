@@ -2,8 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import { toast } from "react-toastify";
-
-import { supabase } from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import TextGradient from "../components/TextGradient";
 import InputFloatingLabel from "../components/Form/InputFloatingLabel";
@@ -37,7 +36,7 @@ const Login = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       setTimeout(() => {
-        supabase.auth
+        supabaseClient.auth
           .signIn({
             email,
             password,
@@ -51,7 +50,7 @@ const Login = () => {
     });
 
   const loginGoogle = async () => {
-    const { user, session, error } = await supabase.auth.signIn(
+    const { user, session, error } = await supabaseClient.auth.signIn(
       { provider: "google" },
       { redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO }
     );

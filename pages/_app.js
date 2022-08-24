@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ToastContainer, Slide } from "react-toastify";
+import { UserProvider } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
-import { UserContextProvider } from "../contexts/user";
 import { SuggestionsContextProvider } from "../contexts/suggestions";
 import { formatTitle } from "../utils/title";
 
@@ -28,7 +29,7 @@ function MyApp({ Component, pageProps }) {
   }, [router.events]);
 
   return (
-    <UserContextProvider>
+    <UserProvider supabaseClient={supabaseClient}>
       <SuggestionsContextProvider>
         <ToastContainer
           transition={Slide}
@@ -43,7 +44,7 @@ function MyApp({ Component, pageProps }) {
         {routeChanging && <IndeterminateProgressBar />}
         <Component {...pageProps} />
       </SuggestionsContextProvider>
-    </UserContextProvider>
+    </UserProvider>
   );
 }
 

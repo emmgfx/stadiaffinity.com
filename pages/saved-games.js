@@ -1,4 +1,8 @@
-import { supabase } from "../utils/supabaseClient";
+import {
+  withPageAuth,
+  getUser,
+  supabaseServerClient,
+} from "@supabase/auth-helpers-nextjs";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
@@ -31,37 +35,20 @@ const SavedGames = ({ savedGames }) => {
   );
 };
 
-export const getServerSideProps = async (context) => {
-  // get the user using the "sb:token" cookie
-  // if a user is not authenticated, redirect to the signin page
-  const { user } = await supabase.auth.api.getUserByCookie(context.req);
+export const getServerSideProps = withPageAuth({
+  redirectTo: "/login",
+  async getServerSideProps(ctx) {
+    // Access the user object
+    const { user } = await getUser(ctx);
+    const { data: savedGames, error } = await supabaseServerClient(ctx).rpc(
+      "get_user_bookmarks",
+      {
+        id_user_input: user.id,
+      }
+    );
 
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  const { data: savedGames, error } = await supabase.rpc("get_user_bookmarks", {
-    id_user_input: user.id,
-  });
-
-  if (error) {
-    // Return 404 response.
-    // No games found or something went wrong with the query
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      savedGames,
-    },
-  };
-};
+    return { props: { savedGames } };
+  },
+});
 
 export default SavedGames;

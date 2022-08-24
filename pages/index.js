@@ -1,4 +1,4 @@
-import { supabase } from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
@@ -30,7 +30,7 @@ const Home = ({ topGames }) => {
 };
 
 export async function getStaticProps(context) {
-  const { data, error } = await supabase.rpc("get_top_10");
+  const { data } = await supabaseClient.rpc("get_top_10");
 
   return {
     props: {

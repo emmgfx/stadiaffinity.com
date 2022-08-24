@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
+import { useUser } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { toast } from "react-toastify";
 import classNames from "classnames";
 
-import { supabase } from "../utils/supabaseClient";
-import { useSession } from "../contexts/user";
 import { useSuggestions } from "../contexts/suggestions";
 
 import IconStarEmpty from "../public/images/icons/star-empty.svg";
 import IconStarFilled from "../public/images/icons/star-filled.svg";
 
 const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
-  const { session } = useSession();
+  const { user } = useUser();
   const { updateSuggestions } = useSuggestions();
 
   const [hover, setHover] = useState(false);
@@ -21,15 +21,15 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
   }, [currentScore, setHover]);
 
   const removeRating = async () => {
-    if (!session) {
+    if (!user) {
       toast("Login to rate games 😅 ");
       return;
     }
     setUpdating(true);
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("ratings")
       .delete()
-      .match({ id_game: gameId, id_user: session.user.id });
+      .match({ id_game: gameId, id_user: user.id });
     setUpdating(false);
     fetchUserRelatedData();
     updateSuggestions();
@@ -118,7 +118,7 @@ const RatingButton = ({
   setUpdating,
   fetchUserRelatedData,
 }) => {
-  const { session } = useSession();
+  const { user } = useUser();
   const { updateSuggestions } = useSuggestions();
 
   const onClick = async () => {
@@ -127,9 +127,9 @@ const RatingButton = ({
       return;
     }
     setUpdating(true);
-    const { data, error } = await supabase.from("ratings").upsert(
+    const { data, error } = await supabaseClient.from("ratings").upsert(
       {
-        id_user: session.user.id,
+        id_user: user.id,
         id_game: gameId,
         rating: score,
       },

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Router from "next/router";
-
-import { supabase } from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import TextGradient from "../components/TextGradient";
 import InputFloatingLabel from "../components/Form/InputFloatingLabel";
@@ -25,7 +24,7 @@ const Register = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       setTimeout(() => {
-        supabase.auth
+        supabaseClient.auth
           .signUp({ email, password })
           .then(({ user, session, error }) => {
             if (error) reject(error);
@@ -36,7 +35,7 @@ const Register = () => {
     });
 
   const loginGoogle = async () => {
-    const { user, session, error } = await supabase.auth.signIn(
+    const { user, session, error } = await supabaseClient.auth.signIn(
       { provider: "google" },
       { redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO }
     );

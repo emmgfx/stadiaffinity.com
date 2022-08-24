@@ -4,9 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import classNames from "classnames";
 import { usePopper } from "react-popper";
-
-import { supabase } from "../../utils/supabaseClient";
-import { useSession } from "../../contexts/user";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useUser } from "@supabase/auth-helpers-react";
 
 import IconBadgeCheck from "../../public/images/icons/badge-check.svg";
 import IconStarMenu from "../../public/images/icons/star.svg";
@@ -16,7 +15,7 @@ import IconPower from "../../public/images/icons/power.svg";
 
 const Navigation = () => {
   const router = useRouter();
-  const { session } = useSession();
+  const { user } = useUser();
   const [popperReference, setPopperReference] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const [popperVisible, setPopperVisible] = useState(false);
@@ -60,7 +59,7 @@ const Navigation = () => {
   return (
     <nav className="">
       <ul className="flex items-center gap-8 justify-end list-none">
-        {session && (
+        {user && (
           <li>
             <UserButton
               ref={setPopperReference}
@@ -68,7 +67,7 @@ const Navigation = () => {
             />
           </li>
         )}
-        {!session && (
+        {!user && (
           <>
             <li>
               <Link href="/login">Login</Link>
@@ -79,7 +78,7 @@ const Navigation = () => {
           </>
         )}
       </ul>
-      {session && popperVisible && (
+      {user && popperVisible && (
         <DropDown
           ref={setPopperElement}
           visible={popperVisible}
@@ -111,7 +110,7 @@ const Navigation = () => {
               <DropDownLink
                 href="/"
                 passRef
-                onClick={() => supabase.auth.signOut()}
+                onClick={() => supabaseClient.auth.signOut()}
                 Icon={IconPower}
               >
                 Logout
@@ -129,7 +128,7 @@ const UserButton = forwardRef(function UserButton(props, ref) {
   // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md
 
   const { setPopperVisible } = props;
-  const { session } = useSession();
+  const { user } = useUser();
 
   return (
     <button
@@ -138,7 +137,7 @@ const UserButton = forwardRef(function UserButton(props, ref) {
       onClick={() => setPopperVisible((current) => !current)}
     >
       <Avatar />
-      <span className="hidden md:block text-sm">{session.user.email}</span>
+      <span className="hidden md:block text-sm">{user.email}</span>
       <Image
         src="/images/icons/chevron-down.svg"
         width={16}
@@ -150,8 +149,8 @@ const UserButton = forwardRef(function UserButton(props, ref) {
 });
 
 const Avatar = () => {
-  const { session } = useSession();
-  const avatar = session?.user?.user_metadata?.avatar_url || "/images/anon.svg";
+  const { user } = useUser();
+  const avatar = user?.user_metadata?.avatar_url || "/images/anon.svg";
   return (
     <img
       src={avatar}

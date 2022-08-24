@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Papa from "papaparse";
-
-import { supabase } from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -90,7 +89,7 @@ const QuickQuestions = ({ game, totalGames, incompleteGames }) => {
     if (loading) return;
     e.preventDefault();
     setLoading(true);
-    let { data, error } = await supabase.rpc("update_game_metadata", {
+    let { data, error } = await supabaseClient.rpc("update_game_metadata", {
       id_game_input: game.id,
       release_date_input: releaseDate,
       developer_input: developer,
@@ -199,21 +198,22 @@ const QuickQuestions = ({ game, totalGames, incompleteGames }) => {
 };
 
 export async function getServerSideProps(context) {
-  const { user } = await supabase.auth.api.getUserByCookie(context.req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(context.req);
 
   if (!user) return { notFound: true };
 
-  const { count: totalGames, error: errorTotal } = await supabase
+  const { count: totalGames, error: errorTotal } = await supabaseClient
     .from("games")
     .select("id", { count: "exact", head: true });
 
-  const { count: incompleteGames, error: errorIncomplete } = await supabase.rpc(
-    "get_games_with_missing_meta",
-    {},
-    { count: "exact", head: true }
-  );
+  const { count: incompleteGames, error: errorIncomplete } =
+    await supabaseClient.rpc(
+      "get_games_with_missing_meta",
+      {},
+      { count: "exact", head: true }
+    );
 
-  const { data: game, error } = await supabase
+  const { data: game, error } = await supabaseClient
     .rpc("get_games_with_missing_meta")
     // .eq("name", "Far Cry 5")
     .limit(1)

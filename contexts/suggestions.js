@@ -5,30 +5,29 @@ import {
   useCallback,
   useState,
 } from "react";
-import { supabase } from "../utils/supabaseClient";
-
-import { useSession } from "./user";
+import { useUser } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export const SuggestionsContext = createContext(null);
 
 export function SuggestionsContextProvider(props) {
-  const { session } = useSession();
+  const { user } = useUser();
   const [suggestions, setSuggestions] = useState([]);
   const updating = useRef(false);
 
   const updateSuggestions = useCallback(() => {
-    if (!session || updating.current) return;
+    if (!user || updating.current) return;
     updating.current = true;
-    supabase
+    supabaseClient
       .rpc("get_game_recommendations", {
-        id_user_input: session.user.id,
+        id_user_input: user.id,
       })
       .then(({ data, error }) => {
         if (error) console.error(error);
         else setSuggestions(data);
       })
       .finally(() => (updating.current = false));
-  }, [session]);
+  }, [user]);
 
   const updateSuggestionsIfNeeded = useCallback(() => {
     if (suggestions.length === 0) updateSuggestions();

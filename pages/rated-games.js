@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-
-import { supabase } from "../utils/supabaseClient";
+import { supabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
@@ -12,7 +11,7 @@ const RatedGames = ({ user }) => {
   const [games, setGames] = useState([]);
 
   useEffect(() => {
-    supabase
+    supabaseClient
       .rpc("get_user_ratings", {
         id_user_input: user.id,
       })
@@ -41,30 +40,11 @@ const RatedGames = ({ user }) => {
         </Container>
         <div className="h-40" />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
 
-export const getServerSideProps = async (context) => {
-  // get the user using the "sb:token" cookie
-  // if a user is not authenticated, redirect to the signin page
-  const { user } = await supabase.auth.api.getUserByCookie(context.req);
-
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      user,
-    },
-  };
-};
+export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
 
 export default RatedGames;

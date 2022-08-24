@@ -1,10 +1,12 @@
+import { useEffect } from "react";
+import { supabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
+
+import { useSuggestions } from "../contexts/suggestions";
+
 import Container from "../components/Container";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import GamesGrid from "../components/GamesGrid";
-import { useEffect } from "react";
-import { useSuggestions } from "../contexts/suggestions";
-import { supabase } from "../utils/supabaseClient";
 
 const GameSuggestions = () => {
   const { suggestions, updateSuggestions } = useSuggestions();
@@ -46,21 +48,6 @@ const GameSuggestions = () => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const { user } = await supabase.auth.api.getUserByCookie(context.req);
-
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-}
+export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
 
 export default GameSuggestions;

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-
-import { supabase } from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
@@ -24,13 +23,13 @@ const ResetPassword = ({}) => {
       return;
     }
     console.log("query", router.query);
-    const { error, data } = await supabase.auth.api.updateUser(
+    const { error, data } = await supabaseClient.auth.api.updateUser(
       router.query.access_token,
       { password: newPassword1 }
     );
     setLoading(false);
     if (!error) {
-      router.push("/login");
+      router.push("/");
       toast.success("Password updated");
     }
     console.log("response", { error, data });
@@ -59,7 +58,7 @@ const ResetPassword = ({}) => {
             />
             <div className="h-4" />
             <Button type="submit" className="w-full" disabled={loading}>
-              Change password
+              {loading ? "Updating..." : "Change password"}
             </Button>
           </form>
         </Container>
