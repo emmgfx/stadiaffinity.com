@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { encodeId } from "../utils/hashids";
-import { useSelector } from "react-redux";
 
 import Cover from "./Cover";
 import Stars from "./Stars";
