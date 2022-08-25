@@ -4,21 +4,23 @@ import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { toast } from "react-toastify";
 import classNames from "classnames";
 
+import { useGame } from "../contexts/game";
 import { useSuggestions } from "../contexts/suggestions";
 
 import IconStarEmpty from "../public/images/icons/star-empty.svg";
 import IconStarFilled from "../public/images/icons/star-filled.svg";
 
-const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
+const RatingBar = ({ gameId }) => {
   const { user } = useUser();
+  const { userRating, fetchUserRelatedData } = useGame();
   const { updateSuggestions } = useSuggestions();
 
   const [hover, setHover] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    setHover(currentScore);
-  }, [currentScore, setHover]);
+    setHover(userRating);
+  }, [userRating, setHover]);
 
   const removeRating = async () => {
     if (!user) {
@@ -31,15 +33,15 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
       .delete()
       .match({ id_game: gameId, id_user: user.id });
     setUpdating(false);
-    fetchUserRelatedData();
     updateSuggestions();
+    fetchUserRelatedData();
   };
 
   return (
     <div>
       <div
         className="grid grid-cols-1 gap-y-2 items-center"
-        onMouseLeave={() => setHover(currentScore)}
+        onMouseLeave={() => setHover(userRating)}
       >
         <div className="flex leading-4">
           <RatingButton
@@ -50,7 +52,6 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 1}
             updating={updating}
             setUpdating={setUpdating}
-            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -60,7 +61,6 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 2}
             updating={updating}
             setUpdating={setUpdating}
-            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -70,7 +70,6 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 3}
             updating={updating}
             setUpdating={setUpdating}
-            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -80,7 +79,6 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 4}
             updating={updating}
             setUpdating={setUpdating}
-            fetchUserRelatedData={fetchUserRelatedData}
           />
           <RatingButton
             gameId={gameId}
@@ -90,13 +88,12 @@ const RatingBar = ({ gameId, currentScore, fetchUserRelatedData }) => {
             active={hover >= 5}
             updating={updating}
             setUpdating={setUpdating}
-            fetchUserRelatedData={fetchUserRelatedData}
           />
         </div>
         <button
           className={classNames(
             "flex text-white/50 text-sm leading-4 transition",
-            { "opacity-0": !currentScore }
+            { "opacity-0": !userRating }
           )}
           onClick={removeRating}
           disabled={updating}
@@ -116,13 +113,13 @@ const RatingButton = ({
   onMouseLeave,
   updating,
   setUpdating,
-  fetchUserRelatedData,
 }) => {
   const { user } = useUser();
   const { updateSuggestions } = useSuggestions();
+  const { fetchUserRelatedData } = useGame();
 
   const onClick = async () => {
-    if (!session) {
+    if (!user) {
       toast("Login to rate games 😅 ");
       return;
     }
@@ -137,13 +134,13 @@ const RatingButton = ({
     );
     setUpdating(false);
     updateSuggestions();
+    fetchUserRelatedData();
 
     if (error) {
       toast.error(error);
     } else {
       toast.success(`Rated with ${score} stars`);
     }
-    fetchUserRelatedData();
   };
 
   return (

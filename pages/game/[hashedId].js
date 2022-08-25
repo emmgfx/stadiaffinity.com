@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
-import { useUser } from "@supabase/auth-helpers-react";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
+import { GameContextProvider } from "../../contexts/game";
 import { decodeId } from "../../utils/hashids";
 import { formatTitle } from "../../utils/title";
 
@@ -22,29 +21,8 @@ import Metascore from "../../components/Metascore";
 import IconStadiaLogo from "../../public/images/icons/logo-stadia.svg";
 
 const GameDetails = ({ game }) => {
-  const { user } = useUser();
-  const [userRating, setUserRating] = useState(null);
-
-  const fetchUserRelatedData = useCallback(async () => {
-    if (!user) return;
-
-    const { data, error } = await supabaseClient
-      .rpc("get_game_by_user", {
-        id_user_input: user.id,
-        id_game_input: game.id,
-      })
-      .limit(1)
-      .single();
-    if (error) return;
-    setUserRating(data.user_rating);
-  }, [game.id, user, setUserRating]);
-
-  useEffect(() => {
-    fetchUserRelatedData();
-  }, [fetchUserRelatedData]);
-
   return (
-    <>
+    <GameContextProvider game={game}>
       <Head>
         <title>{formatTitle(game.id + " - " + game.name)}</title>
       </Head>
@@ -64,11 +42,7 @@ const GameDetails = ({ game }) => {
               <div className="h-4" />
               <Metadata game={game} />
               <div className="h-12" />
-              <Ratings
-                game={game}
-                userRating={userRating}
-                fetchUserRelatedData={fetchUserRelatedData}
-              />
+              <Ratings game={game} />
               <div className="h-12" />
               <AffinityBar gameId={game.id} />
               <div className="h-12" />
@@ -93,7 +67,7 @@ const GameDetails = ({ game }) => {
         <div className="h-20" />
       </main>
       <Footer />
-    </>
+    </GameContextProvider>
   );
 };
 
@@ -114,16 +88,12 @@ const Metadata = ({ game }) => {
   );
 };
 
-const Ratings = ({ game, userRating, fetchUserRelatedData }) => {
+const Ratings = ({ game }) => {
   return (
     <div className="flex flex-col lg:flex-row gap-5 lg:gap-16 text-sm">
       <div>
         <h3 className="mb-4 uppercase text-lg">Your rating</h3>
-        <RatingBar
-          gameId={game.id}
-          currentScore={userRating}
-          fetchUserRelatedData={fetchUserRelatedData}
-        />
+        <RatingBar gameId={game.id} />
       </div>
       <div>
         <h3 className="mb-4 uppercase text-lg">Stadiaffinity score</h3>
@@ -138,10 +108,10 @@ const Ratings = ({ game, userRating, fetchUserRelatedData }) => {
           </span>
         </div>
       </div>
-      <div>
+      {/* <div>
         <h3 className="mb-4 uppercase text-lg">Metascore</h3>
         <Metascore score={game.metacritic_score} />
-      </div>
+      </div> */}
     </div>
   );
 };
