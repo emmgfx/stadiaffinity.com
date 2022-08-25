@@ -6,12 +6,13 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
+  },
   images: {
-    domains: [
-      "via.placeholder.com",
-      "nddyfchsgrewkdbjnwcz.supabase.in",
-      "googleusercontent.com",
-    ],
+    domains: ["via.placeholder.com", "nddyfchsgrewkdbjnwcz.supabase.in"],
   },
   webpack(config) {
     // Add SVGR:
