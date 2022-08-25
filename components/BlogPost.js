@@ -4,7 +4,7 @@ import Image from "next/future/image";
 const BlogPost = ({ post }) => {
   return (
     <article className="flex flex-col">
-      <Image
+      <img
         src={post.jetpack_featured_media_url}
         className="w-full aspect-video object-cover"
         alt=""
