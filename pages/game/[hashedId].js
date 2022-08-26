@@ -35,18 +35,18 @@ const GameDetails = ({ game }) => {
                 <Cover game={game} />
               </div>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <SaveGameButton gameId={game.id} />
               <div className="h-4" />
-              <h1 className="text-5xl">{game.name}</h1>
+              <h1 className="text-4xl sm:text-5xl">{game.name}</h1>
               <div className="h-4" />
               <Metadata game={game} />
-              <div className="h-12" />
+              <div className="h-8 sm:h-12" />
               <Ratings game={game} />
+              <div className="h-8 sm:h-12" />
+              <AffinityBar gameId={game.id} className="mx-auto md:mx-0" />
               <div className="h-12" />
-              <AffinityBar gameId={game.id} />
-              <div className="h-12" />
-              <div className="flex flex-col sm:flex-row gap-6 wrap">
+              <div className="flex flex-col md:flex-row gap-6 wrap">
                 <Button
                   tagName="a"
                   href="https://www.stadia.com"
@@ -90,13 +90,15 @@ const Metadata = ({ game }) => {
 
 const Ratings = ({ game }) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-5 lg:gap-16 text-sm">
-      <div>
-        <h3 className="mb-4 uppercase text-lg">Your rating</h3>
+    <div className="flex gap-5 lg:gap-16 text-sm text-left justify-center md:justify-start">
+      <div className="min-w-0">
+        <h3 className="mb-4 uppercase sm:text-lg truncate">Your rating</h3>
         <RatingBar gameId={game.id} />
       </div>
-      <div>
-        <h3 className="mb-4 uppercase text-lg">Stadiaffinity score</h3>
+      <div className="min-w-0">
+        <h3 className="mb-4 uppercase sm:text-lg truncate">
+          Stadiaffinity score
+        </h3>
         <div className="grid grid-cols-[24px_auto] gap-x-4 gap-y-2 items-center">
           <IconStarFilled width={24} height={24} />
           <span className="text-xl font-light leading-4">

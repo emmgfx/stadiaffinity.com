@@ -1,11 +1,18 @@
+import classNames from "classnames";
+
 import useGameAffinity from "../hooks/useGameAffinity";
 
 import Icon from "../public/images/icons/badge-check.svg";
 
-const AffinityBar = ({ gameId }) => {
+const AffinityBar = ({ gameId, className }) => {
   const affinity = useGameAffinity(gameId);
   return (
-    <div className="relative w-full max-w-[400px] h-8 rounded-full bg-white/10 overflow-hidden">
+    <div
+      className={classNames(
+        "relative w-full max-w-[400px] h-8 rounded-full bg-white/10 overflow-hidden",
+        className
+      )}
+    >
       <div
         className={`h-8 bg-gradient-to-r from-primary-500 to-secondary-500 transition-all ease-out duration-1000 absolute top-0 left-0 rounded-full`}
         style={{ width: `${affinity || 0}%` }}

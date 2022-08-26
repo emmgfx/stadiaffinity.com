@@ -18,7 +18,7 @@ const BlogPosts = ({ term = "", limit = 4, subtype = "post" }) => {
 
   return (
     <div>
-      <h3 className="uppercase font-light text-2xl">
+      <h3 className="uppercase font-light text-xl sm:text-2xl">
         Related posts by{" "}
         <strong className="font-bold">
           <TextGradient>StadiaHoy</TextGradient>

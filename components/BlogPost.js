@@ -11,10 +11,10 @@ const BlogPost = ({ post }) => {
             alt=""
           />
           <div className="p-6 bg-white/10 flex-grow">
-            <div className="font-normal text-sm mb-2">
+            <div className="font-normal text-xs sm:text-sm mb-2">
               {new Date(post.date).toLocaleDateString()}
             </div>
-            <h1 className="line-clamp-3 font-bold text-xl">
+            <h1 className="line-clamp-2 sm:line-clamp-3 font-bold sm:text-xl">
               {post.title.rendered}
             </h1>
           </div>
