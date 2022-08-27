@@ -48,7 +48,6 @@ const GameDetails = ({ game }) => {
               <div className="h-12" />
               <div className="flex flex-col md:flex-row gap-6 wrap">
                 <Button
-                  tagName="a"
                   href="https://www.stadia.com"
                   target="_blank"
                 >

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const Button = forwardRef(function Button(
   {
-    tagName: Tag = "button",
+    tagName = "button",
     variant = "white",
     minWidth = false,
     children,
@@ -13,6 +13,7 @@ const Button = forwardRef(function Button(
   },
   ref
 ) {
+  const Tag = props.href ? "a" : tagName;
   // Using function instead of arrow function because of:
   // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md
   return (

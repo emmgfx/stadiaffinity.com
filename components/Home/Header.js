@@ -14,7 +14,7 @@ const Header = () => {
           Your <TextGradient>ideal game</TextGradient> just a step away from you
         </h1>
         <Link passHref href={user ? "/game-suggestions" : "/login"}>
-          <Button variant="orange" minWidth={true} tagName="a">
+          <Button variant="orange" minWidth={true}>
             Discover now
           </Button>
         </Link>
