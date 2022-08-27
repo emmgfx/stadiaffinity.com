@@ -5,6 +5,7 @@ import { ToastContainer, Slide } from "react-toastify";
 import { UserProvider } from "@supabase/auth-helpers-react";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
+import { useSearchStore } from "../store/stores";
 import { SuggestionsContextProvider } from "../contexts/suggestions";
 import { formatTitle } from "../utils/title";
 
@@ -16,6 +17,11 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [routeChanging, setRouteChanging] = useState(false);
+  const { setTerm } = useSearchStore((state) => state);
+
+  useEffect(() => {
+    if (router.pathname !== "/search/[term]") setTerm("");
+  }, [router.pathname]);
 
   useEffect(() => {
     const handleRouteChangeStart = () => setRouteChanging(true);
