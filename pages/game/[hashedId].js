@@ -57,17 +57,22 @@ const GameDetails = ({ game }) => {
               <div className="h-8 sm:h-12" />
               <AffinityBar gameId={game.id} className="mx-auto md:mx-0" />
               <div className="h-12" />
-              <div className="flex flex-col md:flex-row gap-6 wrap">
-                <Button
-                  href="https://www.stadia.com"
-                  target="_blank"
-                >
+              <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-6 wrap justify-center lg:justify-start">
+                <Button href="https://www.stadia.com" target="_blank">
                   <IconStadiaLogo width="24" height="24" />
                   <TextGradient>Play on Stadia</TextGradient>
                 </Button>
-                {/* <Button tagName="a" href="#" variant="white-outline">
-                  Read the review on <TextGradient>StadiaHoy</TextGradient>
-                </Button> */}
+                <Button
+                  href={`https://www.stadiahoy.com/?s=${encodeURIComponent(
+                    game.name
+                  )}`}
+                  target="_blank"
+                  variant="white-outline"
+                >
+                  <span>
+                    More info on <TextGradient>StadiaHoy</TextGradient>
+                  </span>
+                </Button>
               </div>
             </div>
           </section>
