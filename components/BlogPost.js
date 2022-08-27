@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { replaceHtmlEntities } from "../utils/entities";
+
 const BlogPost = ({ post }) => {
   return (
     <Link href={post.link}>
@@ -15,7 +17,7 @@ const BlogPost = ({ post }) => {
               {new Date(post.date).toLocaleDateString()}
             </div>
             <h1 className="line-clamp-2 sm:line-clamp-3 font-bold sm:text-xl">
-              {post.title.rendered}
+              {replaceHtmlEntities(post.title.rendered)}
             </h1>
           </div>
         </article>
