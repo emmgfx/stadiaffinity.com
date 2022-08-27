@@ -17,7 +17,6 @@ import RatingBar from "../../components/RatingBar";
 import Button from "../../components/Button";
 
 import IconStarFilled from "../../public/images/icons/star-filled.svg";
-import Metascore from "../../components/Metascore";
 import IconStadiaLogo from "../../public/images/icons/logo-stadia.svg";
 
 const GameDetails = ({ game }) => {
@@ -109,10 +108,6 @@ const Ratings = ({ game: gameInitialData }) => {
           </span>
         </div>
       </div>
-      {/* <div>
-        <h3 className="mb-4 uppercase text-lg">Metascore</h3>
-        <Metascore score={game.metacritic_score} />
-      </div> */}
     </div>
   );
 };
