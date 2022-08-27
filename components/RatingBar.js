@@ -12,15 +12,15 @@ import IconStarFilled from "../public/images/icons/star-filled.svg";
 
 const RatingBar = ({ gameId }) => {
   const { user } = useUser();
-  const { userRating, fetchUserRelatedData } = useGame();
+  const { game, fetchUserRelatedData } = useGame();
   const { updateSuggestions } = useSuggestions();
 
   const [hover, setHover] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    setHover(userRating);
-  }, [userRating, setHover]);
+    setHover(game.user_rating);
+  }, [game, setHover]);
 
   const removeRating = async () => {
     if (!user) {
@@ -31,7 +31,7 @@ const RatingBar = ({ gameId }) => {
     const { data, error } = await supabaseClient
       .from("ratings")
       .delete()
-      .match({ id_game: gameId, id_user: user.id });
+      .match({ id_game: game.id, id_user: user.id });
     setUpdating(false);
     updateSuggestions();
     fetchUserRelatedData();
@@ -39,11 +39,11 @@ const RatingBar = ({ gameId }) => {
 
   return (
     <div>
-      <div
-        className="grid grid-cols-1 gap-y-2 items-center"
-        onMouseLeave={() => setHover(userRating)}
-      >
-        <div className="flex leading-4">
+      <div className="grid grid-cols-1 gap-y-2 items-center">
+        <div
+          className="flex leading-4"
+          onMouseLeave={() => setHover(game.user_rating)}
+        >
           <RatingButton
             gameId={gameId}
             score={1}
@@ -93,7 +93,7 @@ const RatingBar = ({ gameId }) => {
         <button
           className={classNames(
             "flex text-white/50 text-sm leading-4 transition",
-            { "opacity-0": !userRating }
+            { "opacity-0": !game.user_rating }
           )}
           onClick={removeRating}
           disabled={updating}

@@ -13,7 +13,7 @@ export const GameContext = createContext(null);
 
 export function GameContextProvider(props) {
   const { user } = useUser();
-  const [userRating, setUserRating] = useState(null);
+  const [game, setGame] = useState(props.game);
 
   const fetchUserRelatedData = useCallback(async () => {
     if (!user) return;
@@ -25,17 +25,16 @@ export function GameContextProvider(props) {
       .limit(1)
       .single();
     if (error) return;
-    setUserRating(data.user_rating);
-  }, [props.game.id, user, setUserRating]);
+    setGame(data);
+  }, [props.game.id, user, setGame]);
 
   useEffect(() => {
     fetchUserRelatedData();
   }, [fetchUserRelatedData]);
 
   const value = {
-    userRating,
+    game,
     fetchUserRelatedData,
-    setUserRating,
   };
 
   return <GameContext.Provider value={value} {...props} />;

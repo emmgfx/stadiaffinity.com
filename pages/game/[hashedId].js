@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
-import { GameContextProvider } from "../../contexts/game";
+import { GameContextProvider, useGame } from "../../contexts/game";
 import { decodeId } from "../../utils/hashids";
 import { formatTitle } from "../../utils/title";
 
@@ -88,6 +88,8 @@ const Metadata = ({ game }) => {
 };
 
 const Ratings = ({ game }) => {
+const Ratings = ({ game: gameInitialData }) => {
+  const { game } = useGame(gameInitialData.id);
   return (
     <div className="flex gap-5 lg:gap-16 text-sm text-left justify-center md:justify-start">
       <div className="min-w-0">
