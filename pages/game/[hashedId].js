@@ -40,7 +40,18 @@ const GameDetails = ({ game }) => {
               <div className="h-4" />
               <h1 className="text-4xl sm:text-5xl">{game.name}</h1>
               <div className="h-4" />
-              <Metadata game={game} />
+              <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 text-sm">
+                <div>
+                  <strong>Release date:</strong>{" "}
+                  {game.release_date || "Unknown"}
+                </div>
+                <div>
+                  <strong>Developer:</strong> {game.developer || "Unknown"}
+                </div>
+                <div>
+                  <strong>Game editor:</strong> {game.editor || "Unknown"}
+                </div>
+              </div>
               <div className="h-8 sm:h-12" />
               <Ratings game={game} />
               <div className="h-8 sm:h-12" />
@@ -70,24 +81,6 @@ const GameDetails = ({ game }) => {
   );
 };
 
-const Metadata = ({ game }) => {
-  return (
-    <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 text-sm">
-      <div>
-        <strong>Release date:</strong>{" "}
-        {game.release_date ? game.release_date : "Unknown"}
-      </div>
-      <div>
-        <strong>Developer:</strong> {game.developer || "Unknown"}
-      </div>
-      <div>
-        <strong>Game editor:</strong> {game.editor || "Unknown"}
-      </div>
-    </div>
-  );
-};
-
-const Ratings = ({ game }) => {
 const Ratings = ({ game: gameInitialData }) => {
   const { game } = useGame(gameInitialData.id);
   return (
