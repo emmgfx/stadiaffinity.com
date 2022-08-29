@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Header from "../components/Header";
@@ -13,6 +14,12 @@ import Steps from "../components/Home/Steps";
 const Home = ({ topGames }) => {
   return (
     <>
+      <Head>
+        <meta
+          name="description"
+          content="Your ideal game just a step away from you. Stadiaffinity helps you find your next game."
+        />
+      </Head>
       <DecorativeCovers />
       <Header />
       <Container>
