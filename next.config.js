@@ -11,6 +11,10 @@ module.exports = withBundleAnalyzer({
       allowFutureImage: true,
     },
   },
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
   images: {
     domains: ["via.placeholder.com", "nddyfchsgrewkdbjnwcz.supabase.in"],
   },
