@@ -7,7 +7,7 @@ const Logo = () => {
   return (
     <div className="inline-flex items-center font-medium text-2xl">
       <Link href="/">
-        <a className="inline-flex gap-4 items-center">
+        <a className="inline-flex gap-4 items-center" title="Stadiaffinity">
           <Isotype />
           <Logotype className="hidden md:block" />
         </a>

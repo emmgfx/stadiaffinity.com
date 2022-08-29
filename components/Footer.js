@@ -29,7 +29,11 @@ const Footer = () => {
           </h3>
 
           <Link href="https://www.buymeacoffee.com/emmgfx">
-            <a target="_blank" className="inline-block mx-auto">
+            <a
+              target="_blank"
+              className="inline-block mx-auto"
+              title="Buy me a coffee"
+            >
               <BuyMeACoffee />
             </a>
           </Link>
@@ -40,17 +44,17 @@ const Footer = () => {
           </h3>
           <div className="flex gap-4 justify-center md:justify-end">
             <Link href="https://tailwindcss.com/">
-              <a target="_blank">
+              <a target="_blank" title="Tailwind">
                 <LogoTailwind width="32px" height="32px" />
               </a>
             </Link>
             <Link href="https://nextjs.org/">
-              <a target="_blank">
+              <a target="_blank" title="NextJS">
                 <LogoNextJS width="32px" height="32px" />
               </a>
             </Link>
             <Link href="https://supabase.com/">
-              <a target="_blank">
+              <a target="_blank" title="Supabase">
                 <LogoSupabase width="32px" height="32px" />
               </a>
             </Link>
