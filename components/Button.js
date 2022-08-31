@@ -19,6 +19,7 @@ const Button = forwardRef(function Button(
   return (
     <Tag
       {...props}
+      ref={ref}
       className={classNames(
         "py-4 px-6 rounded-sm inline-flex justify-center items-center gap-2 disabled:opacity-50",
         className,
