@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Header from "../components/Header";
@@ -10,6 +11,7 @@ import HomeHeader from "../components/Home/Header";
 import GamesGrid from "../components/GamesGrid";
 import Divider from "../components/Divider";
 import Steps from "../components/Home/Steps";
+import Button from "../components/Button";
 
 const Home = ({ topGames }) => {
   return (
@@ -29,6 +31,12 @@ const Home = ({ topGames }) => {
           phantoms={topGames.length === 0 ? 10 : null}
           games={topGames}
         />
+        <div className="h-16" />
+        <div className="text-center">
+          <Link href="/games">
+            <Button variant="white-outline">View all Games</Button>
+          </Link>
+        </div>
       </Container>
       <Steps />
       <Footer />
