@@ -11,7 +11,8 @@ const Header = () => {
     <>
       <div className="relative text-center my-8 md:my-32">
         <h1 className="text-4xl sm:text-6xl font-medium max-w-2xl mx-auto my-6 md:my-12">
-          Your <TextGradient>ideal game</TextGradient> just a step away from you
+          Your <TextGradient>ideal game</TextGradient> is just a step away from
+          you
         </h1>
         <Link passHref href={user ? "/game-suggestions" : "/login"}>
           <Button variant="orange" minWidth={true}>
