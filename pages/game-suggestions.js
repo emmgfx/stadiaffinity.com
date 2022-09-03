@@ -7,6 +7,7 @@ import Container from "../components/Container";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import GamesGrid from "../components/GamesGrid";
+import PageTitle from "../components/PageTitle";
 
 const GameSuggestions = () => {
   const { suggestions, updateSuggestions } = useSuggestions();
@@ -20,7 +21,9 @@ const GameSuggestions = () => {
       <Header />
       <main>
         <Container>
-          <h1 className="text-5xl mb-10">Game suggestions</h1>
+          <div className="h-8" />
+          <PageTitle>Game suggestions</PageTitle>
+          <div className="h-8" />
           <div className="bg-white/10 p-4 px-6 rounded-xl max-w-4xl mx-auto">
             <p className="mb-2">
               <strong>How it works?</strong>

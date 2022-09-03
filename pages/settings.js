@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import Container from "../components/Container";
 import Footer from "../components/Footer";
+import PageTitle from "../components/PageTitle";
 
 const Settings = ({}) => {
   return (
@@ -8,7 +9,6 @@ const Settings = ({}) => {
       <Header />
       <main>
         <Container>
-          <h1 className="text-4xl my-10 font-semibold">Settings</h1>
           <div className="text-center">
             <iframe
               src="https://giphy.com/embed/3og0IJLjXc84H8K45a"
@@ -21,6 +21,9 @@ const Settings = ({}) => {
                 via GIPHY
               </a>
             </p>
+          <div className="h-8" />
+          <PageTitle>Settings</PageTitle>
+          <div className="h-8" />
           </div>
         </Container>
         <div className="h-40" />

@@ -9,6 +9,7 @@ import Container from "../components/Container";
 import Footer from "../components/Footer";
 import TextGradient from "../components/TextGradient";
 import GamesGrid from "../components/GamesGrid";
+import PageTitle from "../components/PageTitle";
 
 const SavedGames = ({ savedGames }) => {
   return (
@@ -16,9 +17,17 @@ const SavedGames = ({ savedGames }) => {
       <Header />
       <main>
         <Container>
-          <h1 className="text-4xl my-10 font-semibold">
-            <TextGradient>{savedGames.length} saved</TextGradient> games
-          </h1>
+          <div className="h-8" />
+          <PageTitle>
+            {savedGames.length > 0 ? (
+              <>
+                <TextGradient>{savedGames.length} saved</TextGradient> games
+              </>
+            ) : (
+              "No games saved yet"
+            )}
+          </PageTitle>
+          <div className="h-8" />
           <GamesGrid
             games={savedGames.map((game) => {
               return {

@@ -6,6 +6,7 @@ import Container from "../components/Container";
 import Footer from "../components/Footer";
 import TextGradient from "../components/TextGradient";
 import GamesGrid from "../components/GamesGrid";
+import PageTitle from "../components/PageTitle";
 
 const RatedGames = ({ user }) => {
   const [games, setGames] = useState([]);
@@ -26,9 +27,11 @@ const RatedGames = ({ user }) => {
       <Header />
       <main>
         <Container>
-          <h1 className="text-4xl my-10 font-semibold">
+          <div className="h-8" />
+          <PageTitle>
             <TextGradient>{games.length} rated</TextGradient> games
-          </h1>
+          </PageTitle>
+          <div className="h-8" />
           <GamesGrid
             games={games.map((game) => {
               return {
@@ -40,7 +43,7 @@ const RatedGames = ({ user }) => {
         </Container>
         <div className="h-40" />
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

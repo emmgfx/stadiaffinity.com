@@ -7,6 +7,7 @@ import GamesGrid from "../../components/GamesGrid";
 import Header from "../../components/Header";
 import TextGradient from "../../components/TextGradient";
 import Button from "../../components/Button";
+import PageTitle from "../../components/PageTitle";
 
 const Games = ({ games: initialGames = [] }) => {
   const [games, setGames] = useState(initialGames);
@@ -26,9 +27,9 @@ const Games = ({ games: initialGames = [] }) => {
     <>
       <Header />
       <Container>
-        <h1 className="text-3xl">
+        <PageTitle>
           Know all the <TextGradient>Stadia Games</TextGradient>
-        </h1>
+        </PageTitle>
         <div className="h-8" />
         <GamesGrid games={games} />
         <div className="h-16" />
