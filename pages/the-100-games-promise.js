@@ -2,7 +2,7 @@ import Head from "next/head";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import diffDays from "../utils/diffDays";
-import title from "../utils/title";
+import { formatTitle } from "../utils/title";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
@@ -17,7 +17,7 @@ const The100GamesPromise = ({ games = [] }) => {
   return (
     <>
       <Head>
-        <title>{title("The one hundred games promise")}</title>
+        <title>{formatTitle("The one hundred games promise")}</title>
         <meta
           name="description"
           content="On february, the Stadia team promised 100 new games arriving to Stadia this 2022. Today, it looks like is going to break his promise."
