@@ -6,17 +6,33 @@ import PageTitle from "../components/PageTitle";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import GamesGrid from "../components/GamesGrid";
 import diffDays from "../utils/diffDays";
+import title from "../utils/title";
 
 const The100GamesPromise = ({ games = [] }) => {
-  // const remainingDays =
-  // const oneDay = ; // hours*minutes*seconds*milliseconds
-  // const firstDate = new Date(2008, 1, 12);
-  // const secondDate = new Date(2008, 1, 22);
-
   const remainingDays = diffDays(new Date(), new Date(2022, 11, 31));
   const missingGames = 100 - games.length;
+
   return (
     <>
+      <Head>
+        <title>{title("The one hundred games promise")}</title>
+        <meta
+          name="description"
+          content="On february, the Stadia team promised 100 new games arriving to Stadia this 2022. Today, it looks like is going to break his promise."
+        />
+        <meta
+          property="og:image"
+          content="https://www.stadiaffinity.com/screenshot-100-games.png"
+        />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="800" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content="https://www.stadiaffinity.com/screenshot-100-games.png"
+        />
+      </Head>
+
       <Header />
       <section className="bg-[url('/images/bg-steps.svg')] bg-center bg-no-repeat bg-auto py-20">
         <Container className="flex flex-col items-center text-center">
