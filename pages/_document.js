@@ -23,7 +23,7 @@ class MyDocument extends Document {
           />
           <meta
             property="og:image"
-            content="https://www.stadiaffinity.com/screnshot.png"
+            content="https://www.stadiaffinity.com/screenshot.png"
           />
           <meta property="og:image:width" content="1280" />
           <meta property="og:image:height" content="800" />
