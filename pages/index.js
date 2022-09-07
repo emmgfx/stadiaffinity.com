@@ -16,12 +16,6 @@ import Button from "../components/Button";
 const Home = ({ topGames }) => {
   return (
     <>
-      <Head>
-        <meta
-          name="description"
-          content="Your ideal game just a step away from you. Stadiaffinity helps you find your next game."
-        />
-      </Head>
       <DecorativeCovers />
       <Header />
       <Container>
