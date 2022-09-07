@@ -16,22 +16,6 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
             rel="stylesheet"
           />
-          <title>Stadiaffinity</title>
-          <meta
-            name="description"
-            content="Your ideal game is just a step away from you. Stadiaffinity helps you find your next game."
-          />
-          <meta
-            property="og:image"
-            content="https://www.stadiaffinity.com/screenshot.png"
-          />
-          <meta property="og:image:width" content="1280" />
-          <meta property="og:image:height" content="800" />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta
-            name="twitter:image"
-            content="https://www.stadiaffinity.com/screenshot.png"
-          />
         </Head>
         <body>
           <Main />

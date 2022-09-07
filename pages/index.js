@@ -16,6 +16,24 @@ import Button from "../components/Button";
 const Home = ({ topGames }) => {
   return (
     <>
+      <Head>
+        <title>Stadiaffinity</title>
+        <meta
+          name="description"
+          content="Your ideal game is just a step away from you. Stadiaffinity helps you find your next game."
+        />
+        <meta
+          property="og:image"
+          content="https://www.stadiaffinity.com/screenshot.png"
+        />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="800" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content="https://www.stadiaffinity.com/screenshot.png"
+        />
+      </Head>
       <DecorativeCovers />
       <Header />
       <Container>
@@ -38,12 +56,12 @@ const Home = ({ topGames }) => {
   );
 };
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   const { data } = await supabaseClient.rpc("get_top_10");
 
   return {
     props: {
-      topGames: data,
+      topGames: data ?? [],
     },
     revalidate: 60 * 10, // In seconds, 10 minutes.
   };
