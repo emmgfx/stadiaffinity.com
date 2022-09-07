@@ -1,12 +1,14 @@
-import Container from "../components/Container";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import TextGradient from "../components/TextGradient";
-import PageTitle from "../components/PageTitle";
+import Head from "next/head";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
-import GamesGrid from "../components/GamesGrid";
+
 import diffDays from "../utils/diffDays";
 import title from "../utils/title";
+
+import Header from "../components/Header";
+import Container from "../components/Container";
+import Footer from "../components/Footer";
+import TextGradient from "../components/TextGradient";
+import GamesGrid from "../components/GamesGrid";
 
 const The100GamesPromise = ({ games = [] }) => {
   const remainingDays = diffDays(new Date(), new Date(2022, 11, 31));
