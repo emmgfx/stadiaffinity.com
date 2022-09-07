@@ -20,7 +20,7 @@ const The100GamesPromise = ({ games = [] }) => {
         <title>{formatTitle("The one hundred games promise")}</title>
         <meta
           name="description"
-          content="On february, the Stadia team promised 100 new games arriving to Stadia this 2022. Today, it looks like is going to break his promise."
+          content="On february, the Stadia team promised 100 new games arriving to Stadia this 2022. Today, it looks like they're going to break this promise."
         />
         <meta
           property="og:image"
@@ -53,10 +53,10 @@ const The100GamesPromise = ({ games = [] }) => {
               promised 100 new games arriving to Stadia this 2022.
             </a>
           </p>
-          <p>Today, it looks like is going to break his promise.</p>
+          <p>Today, it looks like they&apos;re going to break this promise.</p>
           <div className="h-20" />
           <p className="text-3xl font-bold text-center">
-            To keep his promise,
+            To keep their promise,
             <br />
             they should release an average of <br />
             <TextGradient>
