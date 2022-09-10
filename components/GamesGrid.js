@@ -1,6 +1,4 @@
 import classNames from "classnames";
-import { useEffect } from "react";
-import { useSuggestions } from "../contexts/suggestions";
 
 import GameItem from "./GameItem";
 import GameItemPhantom from "./GameItemPhantom";
