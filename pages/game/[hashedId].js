@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { GameContextProvider, useGame } from "../../contexts/game";
@@ -51,10 +52,24 @@ const GameDetails = ({ game, developerGames, editorGames }) => {
                   {game.release_date || "Unknown"}
                 </div>
                 <div>
-                  <strong>Developer:</strong> {game.developer || "Unknown"}
+                  <strong>Developer:</strong>{" "}
+                  {game.developer ? (
+                    <Link href={`/games/developer/${game.developer}`}>
+                      {game.developer}
+                    </Link>
+                  ) : (
+                    "Unknown"
+                  )}
                 </div>
                 <div>
-                  <strong>Game editor:</strong> {game.editor || "Unknown"}
+                  <strong>Game editor:</strong>{" "}
+                  {game.editor ? (
+                    <Link href={`/games/editor/${game.editor}`}>
+                      {game.editor}
+                    </Link>
+                  ) : (
+                    "Unknown"
+                  )}
                 </div>
               </div>
               <div className="h-8 sm:h-12" />
