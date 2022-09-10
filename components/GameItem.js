@@ -1,14 +1,16 @@
+import classNames from "classnames";
 import Link from "next/link";
+
 import { encodeId } from "../utils/hashids";
 
 import Cover from "./Cover";
 import Stars from "./Stars";
 import AffinityBar from "./AffinityBar";
 
-const GameItem = ({ game, showAffinity = false }) => {
+const GameItem = ({ game, showAffinity = false, className }) => {
   return (
     <Link href={`/game/${encodeId(game.id)}`}>
-      <a className="flex flex-col">
+      <a className={classNames("flex flex-col", className)}>
         <article className="rounded overflow-hidden flex flex-col h-full">
           <Cover game={game} />
           <div className="px-4 py-6 flex-auto flex flex-col bg-gradient-to-r from-gray-medium to-[#363740]">
