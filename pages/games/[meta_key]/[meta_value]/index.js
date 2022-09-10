@@ -17,6 +17,7 @@ const Games = ({ games, meta_value }) => {
       </Head>
       <Header />
       <Container>
+        <div className="h-8" />
         <PageTitle>
           Stadia has {games.length} games from {meta_value}
         </PageTitle>
