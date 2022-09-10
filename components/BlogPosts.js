@@ -25,7 +25,7 @@ const BlogPosts = ({ term = "", limit = 4, subtype = "post" }) => {
         </strong>
       </h3>
       <div className="h-8" />
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
         {loading &&
           [...Array(limit).keys()].map((v, i) => <BlogPostPhantom key={i} />)}
         {!loading &&
