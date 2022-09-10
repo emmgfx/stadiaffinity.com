@@ -6,6 +6,7 @@ import { decodeId } from "../../utils/hashids";
 import { formatTitle } from "../../utils/title";
 
 import Header from "../../components/Header";
+import GamesGrid from "../../components/GamesGrid";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import Cover from "../../components/Cover";
@@ -19,7 +20,12 @@ import Button from "../../components/Button";
 import IconStarFilled from "../../public/images/icons/star-filled.svg";
 import IconStadiaLogo from "../../public/images/icons/logo-stadia.svg";
 
-const GameDetails = ({ game }) => {
+const GameDetails = ({ game, developerGames, editorGames }) => {
+  const showDeveloperGames = developerGames.length > 0;
+  const showEditorGames =
+    editorGames.length > 0 &&
+    (game.editor !== game.developer || !showDeveloperGames);
+
   return (
     <GameContextProvider game={game}>
       <Head>
@@ -77,6 +83,36 @@ const GameDetails = ({ game }) => {
           </section>
           <div className="h-16" />
           <BlogPosts term={game.name} />
+
+          {showDeveloperGames && (
+            <>
+              <div className="h-16" />
+
+              <h3 className="uppercase font-light text-xl sm:text-2xl">
+                More games from{" "}
+                <strong className="font-bold">
+                  <TextGradient>{game.developer}</TextGradient>
+                </strong>
+              </h3>
+              <div className="h-8" />
+              <GamesGrid games={developerGames} />
+            </>
+          )}
+
+          {showEditorGames && (
+            <>
+              <div className="h-16" />
+
+              <h3 className="uppercase font-light text-xl sm:text-2xl">
+                More games by{" "}
+                <strong className="font-bold">
+                  <TextGradient>{game.editor}</TextGradient>
+                </strong>
+              </h3>
+              <div className="h-8" />
+              <GamesGrid games={editorGames} />
+            </>
+          )}
         </Container>
         <div className="h-20" />
       </main>
@@ -133,9 +169,27 @@ export async function getStaticProps(context) {
 
   if (error) return { notFound: true };
 
+  const { data: developerGames } = await supabaseClient
+    .rpc("get_games_by_meta", {
+      meta_key_input: "developer",
+      meta_value_input: game.developer,
+    })
+    .not("id", "eq", game.id)
+    .limit(5);
+
+  const { data: editorGames } = await supabaseClient
+    .rpc("get_games_by_meta", {
+      meta_key_input: "editor",
+      meta_value_input: game.editor,
+    })
+    .not("id", "eq", game.id)
+    .limit(5);
+
   return {
     props: {
       game,
+      developerGames,
+      editorGames,
     },
     revalidate: 60 * 60 * 24, // 1 day
   };
