@@ -111,6 +111,20 @@ const GameDetails = ({ game, developerGames, editorGames }) => {
               </h3>
               <div className="h-8" />
               <GamesGrid games={developerGames} />
+              {developerGames.length >= 5 && (
+                <>
+                  <div className="h-16" />
+                  <div className="text-center">
+                    <Link href={`/games/developer/${game.developer}`}>
+                      <a>
+                        <Button variant="white-outline">
+                          View {game.developer} games
+                        </Button>
+                      </a>
+                    </Link>
+                  </div>
+                </>
+              )}
             </>
           )}
 
@@ -126,6 +140,20 @@ const GameDetails = ({ game, developerGames, editorGames }) => {
               </h3>
               <div className="h-8" />
               <GamesGrid games={editorGames} />
+              {editorGames.length >= 5 && (
+                <>
+                  <div className="h-16" />
+                  <div className="text-center">
+                    <Link href={`/games/editor/${game.editor}`}>
+                      <a>
+                        <Button variant="white-outline">
+                          View {game.editor} games
+                        </Button>
+                      </a>
+                    </Link>
+                  </div>
+                </>
+              )}
             </>
           )}
         </Container>
