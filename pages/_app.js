@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if (router.pathname !== "/search/[term]") setTerm("");
-  }, [router.pathname]);
+  }, [router.pathname, setTerm]);
 
   useEffect(() => {
     const handleRouteChangeStart = () => setRouteChanging(true);
