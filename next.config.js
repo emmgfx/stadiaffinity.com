@@ -6,11 +6,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
-  },
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
