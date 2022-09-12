@@ -1,3 +1,4 @@
+import Image from "next/future/image";
 import Link from "next/link";
 
 import { replaceHtmlEntities } from "../utils/entities";
@@ -7,10 +8,12 @@ const BlogPost = ({ post }) => {
     <Link href={post.link}>
       <a target="_blank" className="flex flex-col">
         <article className="flex flex-col grow transition hover:bg-white/10">
-          <img
+          <Image
             src={post.jetpack_featured_media_url}
             className="w-full aspect-video object-cover"
             alt=""
+            width={384}
+            height={249}
           />
           <div className="p-6 bg-white/10 flex-grow">
             <div className="font-normal text-xs sm:text-sm mb-2">

@@ -152,10 +152,12 @@ const Avatar = () => {
   const { user } = useUser();
   const avatar = user?.user_metadata?.avatar_url || "/images/anon.svg";
   return (
-    <img
+    <Image
       src={avatar}
-      className="block w-[32px] h-[32px] bg-primary-500 rounded-full"
+      className="block w-[32px] h-[32px] rounded-full"
       referrerPolicy="no-referrer"
+      width={32}
+      height={32}
       alt=""
     />
   );

@@ -12,6 +12,11 @@ module.exports = withBundleAnalyzer({
   },
   images: {
     domains: ["via.placeholder.com", "nddyfchsgrewkdbjnwcz.supabase.in"],
+    remotePatterns: [
+      { protocol: "https", hostname: "**.googleusercontent.com" },
+      { protocol: "https", hostname: "**.wp.com" },
+      { protocol: "https", hostname: "**.stadiahoy.com" },
+    ],
   },
   webpack(config) {
     // Add SVGR:
