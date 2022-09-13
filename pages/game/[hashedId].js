@@ -5,6 +5,7 @@ import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GameContextProvider, useGame } from "../../contexts/game";
 import { decodeId } from "../../utils/hashids";
 import { formatTitle } from "../../utils/title";
+import { getStadiaHoyPosts } from "../../utils/stadiahoy";
 
 import Header from "../../components/Header";
 import GamesGrid from "../../components/GamesGrid";
@@ -21,7 +22,12 @@ import Button from "../../components/Button";
 import IconStarFilled from "../../public/images/icons/star-filled.svg";
 import IconStadiaLogo from "../../public/images/icons/logo-stadia.svg";
 
-const GameDetails = ({ game, developerGames, editorGames }) => {
+const GameDetails = ({
+  game,
+  developerGames = [],
+  editorGames = [],
+  stadiaHoyPosts = [],
+}) => {
   const showDeveloperGames = developerGames.length > 0;
   const showEditorGames =
     editorGames.length > 0 &&
@@ -97,7 +103,7 @@ const GameDetails = ({ game, developerGames, editorGames }) => {
             </div>
           </section>
           <div className="h-16" />
-          <BlogPosts term={game.name} />
+          <BlogPosts posts={stadiaHoyPosts} />
 
           {showDeveloperGames && (
             <>
@@ -228,11 +234,14 @@ export async function getStaticProps(context) {
     .not("id", "eq", game.id)
     .limit(5);
 
+  const stadiaHoyPosts = await getStadiaHoyPosts({ term: game.name });
+
   return {
     props: {
       game,
       developerGames,
       editorGames,
+      stadiaHoyPosts,
     },
     revalidate: 60 * 60 * 24, // 1 day
   };

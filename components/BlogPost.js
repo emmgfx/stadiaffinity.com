@@ -17,7 +17,9 @@ const BlogPost = ({ post }) => {
           />
           <div className="p-6 bg-white/10 flex-grow">
             <div className="font-normal text-xs sm:text-sm mb-2">
-              {new Date(post.date).toLocaleDateString()}
+              {post.date.slice(0, 10)}
+              {/* ToDo: This date problem should be solved in node 14 */}
+              {/* {new Date(post.date).toLocaleDateString()} */}
             </div>
             <h1 className="line-clamp-2 sm:line-clamp-3 font-bold sm:text-xl">
               {replaceHtmlEntities(post.title.rendered)}
@@ -29,16 +31,4 @@ const BlogPost = ({ post }) => {
   );
 };
 
-const BlogPostPhantom = ({ post }) => {
-  return (
-    <article>
-      <div className="aspect-video bg-white/20 animate-pulse" />
-      <div className="p-6 bg-white/10">
-        <div className="font-normal text-sm mb-2">Loading</div>
-        <h1 className="truncate font-bold text-xl">Loading</h1>
-      </div>
-    </article>
-  );
-};
-
-export { BlogPost, BlogPostPhantom };
+export default BlogPost;
