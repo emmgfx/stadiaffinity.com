@@ -1,5 +1,4 @@
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useState } from "react";
 
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
@@ -8,21 +7,9 @@ import Header from "../../components/Header";
 import TextGradient from "../../components/TextGradient";
 import Button from "../../components/Button";
 import PageTitle from "../../components/PageTitle";
+import Link from "next/link";
 
-const Games = ({ games: initialGames = [] }) => {
-  const [games, setGames] = useState(initialGames);
-  const [loading, setLoading] = useState(false);
-
-  const loadMoreGames = async () => {
-    setLoading(true);
-    const { data } = await supabaseClient.rpc("get_games", {
-      limit_input: 20,
-      offset_input: games.length,
-    });
-    setGames((currentGames) => [...currentGames, ...data]);
-    setLoading(false);
-  };
-
+const Games = ({ games = [], page = 1 }) => {
   return (
     <>
       <Header />
@@ -33,10 +20,21 @@ const Games = ({ games: initialGames = [] }) => {
         <div className="h-8" />
         <GamesGrid games={games} />
         <div className="h-16" />
-        <div className="text-center">
-          <Button onClick={loadMoreGames} disabled={loading}>
-            {loading ? "Loading more..." : "Load more"}
-          </Button>
+        <div className="flex justify-center gap-4">
+          {page > 0 && (
+            <Link
+              passHref
+              href={{ pathname: "/games", query: { page: parseInt(page) - 1 } }}
+            >
+              <Button minWidth>Previous</Button>
+            </Link>
+          )}
+          <Link
+            passHref
+            href={{ pathname: "/games", query: { page: parseInt(page) + 1 } }}
+          >
+            <Button minWidth>Next</Button>
+          </Link>
         </div>
         <div className="h-16" />
       </Container>
@@ -45,17 +43,18 @@ const Games = ({ games: initialGames = [] }) => {
   );
 };
 
-export async function getStaticProps(context) {
-  const { data, error } = await supabaseClient.rpc("get_games", {
-    limit_input: 20,
-    offset_input: 0,
+export async function getServerSideProps({ query }) {
+  const page = query.page ? query.page : 0;
+  const { data: games } = await supabaseClient.rpc("get_games", {
+    limit_input: 40,
+    offset_input: page * 40,
   });
 
   return {
     props: {
-      games: data,
+      games,
+      page,
     },
-    revalidate: 60 * 60, // In seconds, 1 hour
   };
 }
 
