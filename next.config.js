@@ -11,6 +11,7 @@ module.exports = withBundleAnalyzer({
     defaultLocale: "en",
   },
   images: {
+    minimumCacheTTL: 60 * 60 * 24 * 7, // In seconds, one week
     domains: ["via.placeholder.com", "nddyfchsgrewkdbjnwcz.supabase.in"],
     remotePatterns: [
       { protocol: "https", hostname: "**.googleusercontent.com" },
