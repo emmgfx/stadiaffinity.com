@@ -84,7 +84,7 @@ const The100GamesPromise = ({ games = [] }) => {
           The games for this year
         </h1>
         <div className="h-20" />
-        <GamesGrid games={games} />
+        <GamesGrid small showReleaseDate games={games} />
       </Container>
       <div className="h-20" />
       <Footer />

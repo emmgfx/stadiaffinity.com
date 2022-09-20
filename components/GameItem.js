@@ -7,7 +7,12 @@ import Cover from "./Cover";
 import Stars from "./Stars";
 import AffinityBar from "./AffinityBar";
 
-const GameItem = ({ game, showAffinity = false, className }) => {
+const GameItem = ({
+  game,
+  showAffinity = false,
+  showReleaseDate = false,
+  className,
+}) => {
   return (
     <Link href={`/game/${encodeId(game.id)}`}>
       <a className={classNames("flex flex-col", className)}>
@@ -15,6 +20,9 @@ const GameItem = ({ game, showAffinity = false, className }) => {
           <Cover game={game} />
           <div className="px-4 py-6 flex-auto flex flex-col bg-gradient-to-r from-gray-medium to-[#363740]">
             <h3 className="font-medium mb-2 line-clamp-2">{game.name}</h3>
+            {showReleaseDate && (
+              <div className="text-[#95949B] text-xs">{game.release_date}</div>
+            )}
             {showAffinity && (
               <>
                 <div className="grow" />
