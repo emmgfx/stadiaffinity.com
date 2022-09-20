@@ -18,7 +18,7 @@ const GamesGrid = ({
         !small &&
           "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-6",
         small &&
-          "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2 md:gap-6"
+          "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2 md:gap-3"
       )}
     >
       {phantoms > 0
