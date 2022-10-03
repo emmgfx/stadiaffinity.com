@@ -58,7 +58,7 @@ const The100GamesPromise = ({ games = [] }) => {
             <a
               href="https://blog.google/products/stadia/message-on-stadia-streaming-strategy/"
               target="_blank"
-              rel="noopener noreferer"
+              rel="noopener noreferrer"
               className="underline"
             >
               Google announced the Stadia shutdown
