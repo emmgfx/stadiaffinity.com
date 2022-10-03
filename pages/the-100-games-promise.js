@@ -53,35 +53,27 @@ const The100GamesPromise = ({ games = [] }) => {
               promised 100 new games arriving to Stadia this 2022.
             </a>
           </p>
-          <p>Today, it looks like they&apos;re going to break this promise.</p>
-          <div className="h-20" />
-          <p className="text-3xl font-bold text-center">
-            To keep their promise,
-            <br />
-            they should release an average of <br />
-            <TextGradient>
-              one game each{" "}
-              {Math.round((remainingDays / missingGames) * 100) / 100} days
-            </TextGradient>
-            .
-          </p>
-          <div className="h-20" />
-
-          <p className="text-xl">
-            Stadia released {games.length} games this year.
-          </p>
           <p>
-            They should release{" "}
-            <TextGradient>
-              {missingGames} games in the next {remainingDays} days
-            </TextGradient>
-            .
+            On september (with only {games.length} games released){" "}
+            <a
+              href="https://blog.google/products/stadia/message-on-stadia-streaming-strategy/"
+              target="_blank"
+              rel="noopener noreferer"
+              className="underline"
+            >
+              Google announced the Stadia shutdown
+            </a>
+            , breaking the promise.
           </p>
+          <div className="h-20" />
+          <span className="text-4xl font-extrabold text-red-500 border-red-500 border-8 py-4 px-8 -rotate-12">
+            FAILED
+          </span>
         </Container>
       </section>
       <Container>
         <h1 className="text-4xl md:text-6xl font-bold text-center">
-          The games for this year
+          The games for 2022
         </h1>
         <div className="h-20" />
         <GamesGrid small showReleaseDate games={games} />
