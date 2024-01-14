@@ -30,7 +30,7 @@ const GameDetails = ({ game, developerGames = [], editorGames = [] }) => {
   return (
     <GameContextProvider game={game}>
       <Head>
-        <title>{formatTitle(game.id + " - " + game.name)}</title>
+        <title>{formatTitle(game.name)}</title>
       </Head>
       <Header />
       <main>
